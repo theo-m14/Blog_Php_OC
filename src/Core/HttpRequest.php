@@ -94,4 +94,5 @@ class HttpRequest
         }
         return $params;
     }
+
 }
