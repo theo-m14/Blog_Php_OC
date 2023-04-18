@@ -50,6 +50,25 @@ class HttpRequest
 
     public function bindParam()
     {
+        switch($this->method)
+        {
+            case "GET":
+            case "DELETE":
+                    $params = $this->getParamFromUrl();
+                    foreach($params as $param){
+                            $this->param[] = $param;
+                    }
+            case "POST":
+            case "PUT":
+                if(!empty($this->route->getParam()))
+                {
+                    foreach($this->route->getParam() as $param){
+                        if(isset($_POST[$param])){
+                                $this->param[] = $_POST[$param];
+                        }
+                    }
+                }
+        }
     }
 
     /**
@@ -64,5 +83,15 @@ class HttpRequest
     public function addParam($value)
     {
         $this->param[]= $value;
+    }
+
+    public function getParamFromUrl()
+    {
+        $indexOfParams = strlen($this->route->getPath()) + 1;
+        $params = [];
+        if(strlen(substr($this->url,$indexOfParams)) > 0){
+            $params = explode('/',substr($this->url,$indexOfParams));
+        }
+        return $params;
     }
 }
