@@ -3,6 +3,8 @@
 namespace App\Core;
 
 use App\Exception\ActionNotFoundException;
+use App\Exception\ControllerNotFoundException;
+use App\Exception\MissingArgumentException;
 
 class Route{
     
@@ -33,8 +35,7 @@ class Route{
                 {
                     $testParameters = new \ReflectionMethod($controller,$this->action);
                     if(count($httpRequest->getParam()) < $testParameters->getNumberOfRequiredParameters()){
-                        //Implement Exception
-                        print("Missing arguments");
+                        throw new MissingArgumentException();
                     }
                     $controller->{$this->action}(...$httpRequest->getParam());
                 }
@@ -45,8 +46,7 @@ class Route{
             }
             else
             {
-                //Implement Exception
-                print("Controller not found");;
+                throw new ControllerNotFoundException();
             }
     }
     /**
