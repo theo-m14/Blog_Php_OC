@@ -14,5 +14,9 @@ $dotenv->load();
         $httpRequest->setRoute($router->findRoute($httpRequest));
         $httpRequest->run();
     }catch(Exception $e){
-        print($e->getMessage());
+        $httpRequest = new HttpRequest("/Error", "GET");
+        $router = new Router();
+        $httpRequest->setRoute($router->findRoute($httpRequest));
+        $httpRequest->addParam($e);
+        $httpRequest->run();
     }

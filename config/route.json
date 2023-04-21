@@ -5,5 +5,12 @@
         "action" : "Home",
         "method" : "GET",
         "param" : []
+    },
+    {
+        "path" : "/Error",
+        "controller": "Error",
+        "action": "Show",
+        "method": "GET",
+        "param": ""
     }
 ]
