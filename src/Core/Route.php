@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Exception\ActionNotFoundException;
+
 class Route{
     
     private $path;
@@ -38,8 +40,7 @@ class Route{
                 }
                 else
                 {
-                    //Implement Exception
-                    print("Action not found");
+                    throw new ActionNotFoundException();
                 }
             }
             else
