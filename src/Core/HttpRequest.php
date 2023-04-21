@@ -95,4 +95,9 @@ class HttpRequest
         return $params;
     }
 
+    public function run()
+    {
+        $this->bindParam();
+        $this->route->run($this);
+    }
 }
