@@ -16,7 +16,7 @@ class Router
     public function findRoute(HttpRequest $httpRequest)
     {
         
-        $url = $httpRequest->getUrl();
+        $url = str_replace($_ENV['BASE_PATH'],"",$httpRequest->getUrl());
         $method = $httpRequest->getMethod();
         $routeFound = array_filter($this->listRoute,function($route) use ($url,$method){
             if(str_contains($route->path,'['))

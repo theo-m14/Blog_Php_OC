@@ -1,6 +1,6 @@
 [
     {
-        "path" : "blogphpoc/",
+        "path" : "/",
         "controller" : "Home",
         "action" : "Home",
         "method" : "GET",
