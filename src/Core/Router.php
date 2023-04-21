@@ -15,6 +15,7 @@ class Router
     
     public function findRoute(HttpRequest $httpRequest)
     {
+        
         $url = $httpRequest->getUrl();
         $method = $httpRequest->getMethod();
         $routeFound = array_filter($this->listRoute,function($route) use ($url,$method){
