@@ -21,9 +21,33 @@ class Route{
 
     public function run($httpRequest)
     {
+        $controller = null;
+			$controllerName = 'App\Controller\\' . $this->controller . "Controller";
+            if(class_exists($controllerName))
+            {
+				
+                $controller = new $controllerName($httpRequest);
+                if(method_exists($controller, $this->action))
+                {
+                    $testParameters = new \ReflectionMethod($controller,$this->action);
+                    if(count($httpRequest->getParam()) < $testParameters->getNumberOfRequiredParameters()){
+                        //Implement Exception
+                        print("Missing arguments");
+                    }
+                    $controller->{$this->action}(...$httpRequest->getParam());
+                }
+                else
+                {
+                    //Implement Exception
+                    print("Action not found");
+                }
+            }
+            else
+            {
+                //Implement Exception
+                print("Controller not found");;
+            }
     }
-
-
     /**
      * Get the value of path
      */ 
