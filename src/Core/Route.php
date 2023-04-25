@@ -2,6 +2,10 @@
 
 namespace App\Core;
 
+use App\Exception\ActionNotFoundException;
+use App\Exception\ControllerNotFoundException;
+use App\Exception\MissingArgumentException;
+
 class Route{
     
     private $path;
@@ -21,9 +25,30 @@ class Route{
 
     public function run($httpRequest)
     {
+        $controller = null;
+			$controllerName = 'App\Controller\\' . $this->controller . "Controller";
+            if(class_exists($controllerName))
+            {
+				
+                $controller = new $controllerName($httpRequest);
+                if(method_exists($controller, $this->action))
+                {
+                    $testParameters = new \ReflectionMethod($controller,$this->action);
+                    if(count($httpRequest->getParam()) < $testParameters->getNumberOfRequiredParameters()){
+                        throw new MissingArgumentException();
+                    }
+                    $controller->{$this->action}(...$httpRequest->getParam());
+                }
+                else
+                {
+                    throw new ActionNotFoundException();
+                }
+            }
+            else
+            {
+                throw new ControllerNotFoundException();
+            }
     }
-
-
     /**
      * Get the value of path
      */ 
