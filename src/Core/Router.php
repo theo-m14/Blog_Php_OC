@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Exception\MultipleRouteFoundException;
+use App\Exception\NoRouteFoundException;
 
 class Router
 {
@@ -24,13 +26,11 @@ class Router
         $numberRoute = count($routeFound);
         if($numberRoute > 1)
         {
-            //Implement Exception
-            print("Too many Route found");
+            throw new MultipleRouteFoundException();
         }
         else if($numberRoute == 0)
         {
-            //Implement Exception
-            print("No route found");
+            throw new NoRouteFoundException($httpRequest);
         }
         else
         {
