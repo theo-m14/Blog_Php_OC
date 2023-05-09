@@ -41,5 +41,12 @@ class UserController extends BaseController{
         $user = new User($mail,$username,$hash_password,3);
         $return = $userRepository->create($user,$param);
         header('Location: /Login');
-        }
+    }
+
+    public function Logout()
+    {
+        $this->setUser(null);
+        session_destroy();
+        header('Location: /');
+    }
 }

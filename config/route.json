@@ -47,5 +47,12 @@
             "login",
             "password"
         ]
+    },
+    {
+        "path" : "/Logout",
+        "controller" : "User",
+        "action" : "Logout",
+        "method" : "GET",
+        "param" : []
     }
 ]
