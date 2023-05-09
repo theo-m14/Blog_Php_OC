@@ -11,11 +11,13 @@ use App\Exception\ViewNotFoundException;
     class BaseController
     {
         private $httpRequest;
+        private $user;
         private $twig;
 
         public function __construct($httpRequest)
         {
             $this->httpRequest = $httpRequest;
+            $this->user = array_key_exists('user', $_SESSION) ? $_SESSION['user'] : null;
             $this->setTwig();
         }
 
@@ -29,8 +31,19 @@ use App\Exception\ViewNotFoundException;
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         }
 
+        public function setUser()
+        {
+            $this->user = $_SESSION['user'];
+        }
+
+        public function getUser()
+        {
+            return $this->user;
+        }
+
         protected function render($filename, Array $data = [])
         {
+            $data['user'] = $this->getUser();
             return $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);
         }
     }

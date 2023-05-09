@@ -1,2 +1,6 @@
 <h1>Hello World</h1>
-<a href="/Register">S'enregistrer</a>
+{% if user %}
+    <p class="navbar-text">Connecté en tant que {{ user.username }} ({{ user.role }})</p>
+{% else %}
+    <a class="btn btn-primary" href="/Login">Connexion</a>
+{% endif %}
