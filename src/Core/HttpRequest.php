@@ -100,4 +100,9 @@ class HttpRequest
         $this->bindParam();
         $this->route->run($this);
     }
+
+    public function clearParam()
+    {
+        $this->param = [];
+    }
 }

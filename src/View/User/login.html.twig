@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+{% block title %}Connexion{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" type="text/css" href="/css/login.css">
+{% endblock %}
+{% block body %}
+<div class="login-form">
+    <form class="login-container" action="Login" method="post">
+        {% if error %}
+        <div class="error-detail">{{ error }}</div>
+        {% endif %}
+        <h2 class="login-title">Connexion</h2>
+        <label for="login">Identifiant</label>
+        <input type="text" id="login" name="login" />
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" />
+        <input type="submit" value="Se connecter" />
+        <p>Pas de compte ? <a href="/Register">S'enregistrer</a></p>
+        {# <p class="forgot-password">Mot de passe oublié?</p> #}
+    </form>
+</div>
+{% endblock %}

@@ -7,6 +7,24 @@
         "param" : []
     },
     {
+        "path" : "/Register",
+        "controller" : "User",
+        "action" : "Register",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/Register",
+        "controller" : "User",
+        "action" : "CreateUser",
+        "method" : "POST",
+        "param" : [
+            "username",
+            "mail",
+            "password"
+        ]
+    },
+    {
         "path" : "/Error",
         "controller": "Error",
         "action": "Show",
