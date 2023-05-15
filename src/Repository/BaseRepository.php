@@ -22,16 +22,16 @@ class BaseRepository
 
     public function getById(int $id) : mixed
     {
-        $req = $this->bdd->prepare("SELECT * FROM " . $this->table . " WHERE id=?");
-		$req->execute(array($id));
+        $req = $this->bdd->prepare("SELECT * FROM ? WHERE id=?");
+		$req->execute(array($this->table,$id));
 		$req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
 		return $req->fetch();
     }
 
     public function getAll() : array
     {
-        $req = $this->bdd->prepare("SELECT * FROM " . $this->table);
-        $req->execute();
+        $req = $this->bdd->prepare("SELECT * FROM ?");
+        $req->execute(array($this->table));
         $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
         return $req->fetchAll();
 
@@ -66,8 +66,8 @@ class BaseRepository
     {
         if(property_exists($obj,"id"))
 			{
-				$req = $this->bdd->prepare("DELETE FROM " . $this->table . " WHERE id=?");
-				return $req->execute(array($obj->id));
+				$req = $this->bdd->prepare("DELETE FROM ? WHERE id=?");
+				return $req->execute(array($this->table,$obj->id));
 			}
 			else
 			{

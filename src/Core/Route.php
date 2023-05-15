@@ -25,7 +25,7 @@ class Route{
         $this->param = $route->param;
     }
 
-    public function run(HttpRequest $httpRequest)
+    public function run(HttpRequest $httpRequest) : void
     {
         $controller = null;
 			$controllerName = 'App\Controller\\' . $this->controller . "Controller";
