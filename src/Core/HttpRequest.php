@@ -2,12 +2,14 @@
 
 namespace App\Core;
 
+use App\Core\Route;
+
 class HttpRequest
 {
-    private $url;
-    private $method;
+    private string $url;
+    private string $method;
     private $param;
-    private $route;
+    private Route $route;
 
     public function __construct($url = null, $method = null)
     {
@@ -27,7 +29,7 @@ class HttpRequest
     /**
      * Get the value of method
      */ 
-    public function getMethod()
+    public function getMethod() : string
     {
         return $this->method;
     }
@@ -35,7 +37,7 @@ class HttpRequest
     /**
      * Get the value of url
      */ 
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->url;
     }
@@ -74,7 +76,7 @@ class HttpRequest
     /**
      * Get the value of _route
      */ 
-    public function getRoute()
+    public function getRoute() : Route
     {
         return $this->route;
     }

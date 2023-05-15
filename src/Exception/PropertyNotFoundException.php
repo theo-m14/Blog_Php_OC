@@ -4,17 +4,17 @@ namespace App\Exception;
 
 class PropertyNotFoundException extends \Exception
 {
-    private $className;
-    private $property;
+    private string $className;
+    private string $property;
     
-    public function __construct($className,$property,$message = "Property missing")
+    public function __construct(string $className,string $property,string $message = "Property missing")
         {
 			$this->className = $className;
             $this->property = $property;
-            parent::__construct($message,'0040');
+            parent::__construct($message);
         }
 
-        public function getMoreDetail()
+        public function getMoreDetail() : string
         {
             return "Property " . $this->property . " does not exist in class " . $this->className;
         }

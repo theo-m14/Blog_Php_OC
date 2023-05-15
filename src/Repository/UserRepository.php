@@ -14,7 +14,8 @@ class UserRepository extends BaseRepository
         parent::__construct("user","User");
     }
 
-    public function getByMail($mail)
+    #TODO : General Get By field
+    public function getByMail(string $mail) : User|bool
     {
         $req = $this->bdd->prepare("SELECT * FROM user WHERE mail=?");
         $req->execute(array($mail));
@@ -27,13 +28,12 @@ class UserRepository extends BaseRepository
         }
     }
 
-    public function getByUsername($username)
+    public function getByUsername(string $username) : User|bool
     {
         $req = $this->bdd->prepare("SELECT * FROM user WHERE username=?");
         $req->execute(array($username));
         $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->getObject());
         $user = $req->fetch();
-        var_dump($user);
         if($user){
             return $this->retrieveRole($user);
         }else{
@@ -46,7 +46,6 @@ class UserRepository extends BaseRepository
         $req = $this->bdd->prepare("SELECT name FROM role WHERE id=?");
         $req->execute(array($user->getRole()));
         $role = $req->fetch(\PDO::FETCH_ASSOC)['name'];
-        var_dump($role);
         $user->setRole($role);
         return $user;
     }

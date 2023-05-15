@@ -2,20 +2,21 @@
 
 namespace App\Core;
 
-use App\Exception\ActionNotFoundException;
-use App\Exception\ControllerNotFoundException;
-use App\Exception\MissingArgumentException;
 use Exception;
+use App\Controller\BaseController;
+use App\Exception\ActionNotFoundException;
+use App\Exception\MissingArgumentException;
+use App\Exception\ControllerNotFoundException;
 
 class Route{
     
-    private $path;
+    private string $path;
     private $controller;
-    private $action;
-    private $method;
+    private string $action;
+    private string $method;
     private $param;
 
-    public function __construct($route)
+    public function __construct(mixed $route)
     {
         $this->path = $route->path;
         $this->controller = $route->controller;
@@ -24,7 +25,7 @@ class Route{
         $this->param = $route->param;
     }
 
-    public function run($httpRequest)
+    public function run(HttpRequest $httpRequest)
     {
         $controller = null;
 			$controllerName = 'App\Controller\\' . $this->controller . "Controller";
@@ -57,7 +58,8 @@ class Route{
     }
 
 
-    public function autoBindArguments($parameters,HttpRequest $httpRequest,$requiredParametersNumber){
+    public function autoBindArguments($parameters,HttpRequest $httpRequest,$requiredParametersNumber) : void
+    {
         $temp_params = $httpRequest->getParam();
         $httpRequest->clearParam();
         foreach($parameters as $parameter){
@@ -77,7 +79,7 @@ class Route{
     /**
      * Get the value of path
      */ 
-    public function getPath()
+    public function getPath() : string
     {
         return $this->path;
     }
@@ -93,7 +95,7 @@ class Route{
     /**
      * Get the value of action
      */ 
-    public function getAction()
+    public function getAction() : string
     {
         return $this->action;
     }
@@ -101,7 +103,7 @@ class Route{
     /**
      * Get the value of method
      */ 
-    public function getMethod()
+    public function getMethod() : string
     {
         return $this->method;
     }

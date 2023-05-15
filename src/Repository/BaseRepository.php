@@ -2,24 +2,25 @@
 
 namespace App\Repository;
 
+use PDO;
 use App\Core\Bdd;
 use App\Exception\PropertyNotFoundException;
 
 
 class BaseRepository
 {
-    private $table;
-    private $object;
-    protected $bdd;
+    private string $table;
+    private mixed $object;
+    protected PDO $bdd;
 
-    public function __construct($table,$object)
+    public function __construct(string $table,string $object)
     {
         $this->table = $table;
         $this->object = 'App\Entity\\' . $object;
         $this->bdd = Bdd::getInstance();
     }
 
-    public function getById($id)
+    public function getById(int $id) : mixed
     {
         $req = $this->bdd->prepare("SELECT * FROM " . $this->table . " WHERE id=?");
 		$req->execute(array($id));
@@ -27,7 +28,7 @@ class BaseRepository
 		return $req->fetch();
     }
 
-    public function getAll()
+    public function getAll() : array
     {
         $req = $this->bdd->prepare("SELECT * FROM " . $this->table);
         $req->execute();
@@ -36,7 +37,7 @@ class BaseRepository
 
     }
 
-    public function create($object,$param)
+    public function insert(mixed $object,$param) : void
     {
         //Count number of parameter
         $paramNumber = count($param);
@@ -46,7 +47,6 @@ class BaseRepository
         $valueString = implode(", ",$valueArray);
         $sql = "INSERT INTO " . $this->table . "(" . implode(", ",$param) . ") VALUES(" . $valueString . ")";
         $req = $this->bdd->prepare($sql);
-        var_dump($sql);
         $boundParam = array();
         foreach($param as $paramName)
         {
@@ -59,12 +59,10 @@ class BaseRepository
 				throw new PropertyNotFoundException($this->object,$paramName);	
 			}
         }
-        var_dump($boundParam);
         $req->execute($boundParam);
-        var_dump('test');
     }
 
-    public function delete($obj)
+    public function delete(mixed $obj) : bool
     {
         if(property_exists($obj,"id"))
 			{
@@ -77,7 +75,7 @@ class BaseRepository
 			}
     }
 
-    public function getObject()
+    public function getObject() : mixed
     {
         return $this->object;
     }

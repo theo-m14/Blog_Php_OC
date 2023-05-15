@@ -5,13 +5,13 @@ namespace App\Entity;
 use App\Exception\PropertyNotFoundException;
 
 class User{
-    private $id;
-    private $mail;
-    private $username;
-    private $password;
-    private $role_id;
+    private int $id;
+    private ?string $mail;
+    private ?string $username;
+    private ?string $password;
+    private mixed $role_id;
 
-    public function __construct($mail = null,$username = null ,$password = null,$role_id = null)
+    public function __construct(string $mail = null,string $username = null ,string $password = null,mixed $role_id = null)
     {   
         $this->mail = $mail;
         $this->username = $username;
@@ -19,7 +19,8 @@ class User{
         $this->role_id = $role_id;
     }
 
-    public function generalGetter($paramName)
+    #TODO : Pertinence ?
+    public function generalGetter(string $paramName) : string|int
     {
         if(property_exists($this,$paramName))
 			{
@@ -31,22 +32,22 @@ class User{
 			}
     }
 
-    public function getPassword()
+    public function getPassword() : string
     {
         return $this->password;
     }
 
-    public function getRole()
+    public function getRole() : mixed
     {
         return $this->role_id;
     }
 
-    public function setRole(string $role)
+    public function setRole(mixed $role) : void
     {
         $this->role_id = $role;
     }
 
-    public function getUsername()
+    public function getUsername() : string
     {
         return $this->username;
     }

@@ -15,7 +15,7 @@ class Router
         $this->listRoute = json_decode($stringRoute);
     }
     
-    public function findRoute(HttpRequest $httpRequest)
+    public function findRoute(HttpRequest $httpRequest) : Route
     {
         
         $url = str_replace($_ENV['BASE_PATH'],"",$httpRequest->getUrl());

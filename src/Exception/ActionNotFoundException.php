@@ -4,9 +4,9 @@ namespace App\Exception;
 
 class ActionNotFoundException extends \Exception
 {
-    public function __construct($message = "Action not found for this route")
+    public function __construct(string $message = "Action not found for this route")
     {
-        parent::__construct($message, "0003");
+        parent::__construct($message);
     }
 
 }
