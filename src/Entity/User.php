@@ -12,7 +12,7 @@ class User{
     private mixed $role_id;
 
     public function __construct(string $mail = null,string $username = null ,string $password = null,mixed $role_id = null)
-    {   
+    {
         $this->mail = $mail;
         $this->username = $username;
         $this->password = $password;
@@ -24,11 +24,11 @@ class User{
     {
         if(property_exists($this,$paramName))
 			{
-				return $this->$paramName;	
+				return $this->$paramName;
 			}
 			else
 			{
-				throw new PropertyNotFoundException($this->$this,$paramName);	
+				throw new PropertyNotFoundException($this->$this,$paramName);
 			}
     }
 

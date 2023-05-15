@@ -6,7 +6,7 @@ class PropertyNotFoundException extends \Exception
 {
     private string $className;
     private string $property;
-    
+
     public function __construct(string $className,string $property,string $message = "Property missing")
         {
 			$this->className = $className;

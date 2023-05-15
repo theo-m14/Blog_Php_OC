@@ -20,7 +20,7 @@ class HttpRequest
 
     /**
      * Get the value of param
-     */ 
+     */
     public function getParam() : array
     {
         return $this->param;
@@ -28,7 +28,7 @@ class HttpRequest
 
     /**
      * Get the value of method
-     */ 
+     */
     public function getMethod() : string
     {
         return $this->method;
@@ -36,7 +36,7 @@ class HttpRequest
 
     /**
      * Get the value of url
-     */ 
+     */
     public function getUrl() : string
     {
         return $this->url;
@@ -44,7 +44,7 @@ class HttpRequest
 
     /**
      * Set the value of _route
-     */ 
+     */
     public function setRoute(Route $route) : void
     {
         $this->route = $route;
@@ -75,13 +75,13 @@ class HttpRequest
 
     /**
      * Get the value of _route
-     */ 
+     */
     public function getRoute() : Route
     {
         return $this->route;
     }
 
-    
+
     public function addParam(mixed $value) :void
     {
         $this->param[]= $value;

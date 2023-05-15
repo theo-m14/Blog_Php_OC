@@ -47,7 +47,7 @@ use App\Exception\ViewNotFoundException;
             return $this->user;
         }
 
-        protected function render(string $filename, Array $data = []) : void 
+        protected function render(string $filename, Array $data = []) : void
         {
             $data['user'] = $this->getUser();
             $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);

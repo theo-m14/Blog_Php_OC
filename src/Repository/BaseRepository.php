@@ -43,7 +43,7 @@ class BaseRepository
         $paramNumber = count($param);
         //fill array with ?
         $valueArray = array_fill(1,$paramNumber,"?");
-        //Transform array in string separate with , 
+        //Transform array in string separate with ,
         $valueString = implode(", ",$valueArray);
         $sql = "INSERT INTO " . $this->table . "(" . implode(", ",$param) . ") VALUES(" . $valueString . ")";
         $req = $this->bdd->prepare($sql);
@@ -52,11 +52,11 @@ class BaseRepository
         {
             if(property_exists($object,$paramName))
 			{
-				$boundParam[] = $object->generalGetter($paramName);	
+				$boundParam[] = $object->generalGetter($paramName);
 			}
 			else
 			{
-				throw new PropertyNotFoundException($this->object,$paramName);	
+				throw new PropertyNotFoundException($this->object,$paramName);
 			}
         }
         $req->execute($boundParam);
@@ -71,7 +71,7 @@ class BaseRepository
 			}
 			else
 			{
-				throw new PropertyNotFoundException($this->object,"id");	
+				throw new PropertyNotFoundException($this->object,"id");
 			}
     }
 

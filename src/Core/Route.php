@@ -9,7 +9,7 @@ use App\Exception\MissingArgumentException;
 use App\Exception\ControllerNotFoundException;
 
 class Route{
-    
+
     private string $path;
     private string $controller;
     private string $action;
@@ -31,7 +31,7 @@ class Route{
 			$controllerName = 'App\Controller\\' . $this->controller . "Controller";
             if(class_exists($controllerName))
             {
-				
+
                 $controller = new $controllerName($httpRequest);
                 if(method_exists($controller, $this->action))
                 {
@@ -78,7 +78,7 @@ class Route{
     }
     /**
      * Get the value of path
-     */ 
+     */
     public function getPath() : string
     {
         return $this->path;
@@ -86,7 +86,7 @@ class Route{
 
     /**
      * Get the value of controller
-     */ 
+     */
     public function getController() : string
     {
         return $this->controller;
@@ -94,7 +94,7 @@ class Route{
 
     /**
      * Get the value of action
-     */ 
+     */
     public function getAction() : string
     {
         return $this->action;
@@ -102,7 +102,7 @@ class Route{
 
     /**
      * Get the value of method
-     */ 
+     */
     public function getMethod() : string
     {
         return $this->method;
@@ -110,7 +110,7 @@ class Route{
 
     /**
      * Get the value of param
-     */ 
+     */
     public function getParam() : array
     {
         return $this->param;

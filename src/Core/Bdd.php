@@ -8,7 +8,7 @@ use PDO;
 	{
 		private PDO $bdd;
 		private static Bdd $instance;
-		
+
 		public static function getInstance() : PDO
 		{
 			if(empty(self::$instance))
@@ -23,7 +23,7 @@ use PDO;
 								  $_ENV['DB_USER'],
 								  $_ENV['DB_PASSWORD']);
 		}
-		
+
 		public function getBdd() : PDO
 		{
 			return $this->bdd;
