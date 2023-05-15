@@ -6,7 +6,7 @@ use App\Controller\BaseController;
 use App\Repository\UserRepository;
 
 class UserController extends BaseController{
-    public function Login() : void 
+    public function login() : void
     {
         if($this->getUser()){
             header('Location: /');
@@ -15,7 +15,7 @@ class UserController extends BaseController{
         }
     }
 
-    public function Authenticate(UserRepository $userRepository,string $login, string $password) : void
+    public function authenticate(UserRepository $userRepository,string $login, string $password) : void
     {
         $user = $userRepository->getByUsername($login);
         if($user && $password == password_verify($password,$user->getPassword())){
@@ -29,12 +29,12 @@ class UserController extends BaseController{
         }
     }
 
-    public function Register() : void
+    public function register() : void
     {
         $this->render('register.html.twig');
     }
 
-    public function CreateUser(UserRepository $userRepository,string $username,string $mail,string $password) : void 
+    public function createUser(UserRepository $userRepository,string $username,string $mail,string $password) : void
     {
         $hash_password = password_hash($password,PASSWORD_DEFAULT);
         $param = ["username","mail","password","role_id"];
@@ -43,7 +43,7 @@ class UserController extends BaseController{
         header('Location: /Login');
     }
 
-    public function Logout() : void
+    public function logout() : void
     {
         $this->delUser();
         session_destroy();
