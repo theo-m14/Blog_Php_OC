@@ -14,7 +14,6 @@ class UserRepository extends BaseRepository
         parent::__construct("user","User");
     }
 
-    #TODO : General Get By field
     public function getByMail(string $mail) : User|bool
     {
         $req = $this->bdd->prepare("SELECT * FROM user WHERE mail=?");

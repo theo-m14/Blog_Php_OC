@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Exception\PropertyNotFoundException;
 
 class User{
-    private int $id;
     private ?string $mail;
     private ?string $username;
     private ?string $password;
@@ -19,17 +18,10 @@ class User{
         $this->role_id = $role_id;
     }
 
-    #TODO : Pertinence ?
-    public function generalGetter(string $paramName) : string|int
+
+    public function getMail() : string
     {
-        if(property_exists($this,$paramName))
-			{
-				return $this->$paramName;
-			}
-			else
-			{
-				throw new PropertyNotFoundException($this->$this,$paramName);
-			}
+        return $this->mail;
     }
 
     public function getPassword() : string
