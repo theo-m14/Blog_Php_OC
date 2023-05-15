@@ -11,10 +11,10 @@ use App\Exception\ControllerNotFoundException;
 class Route{
     
     private string $path;
-    private $controller;
+    private string $controller;
     private string $action;
     private string $method;
-    private $param;
+    private array $param;
 
     public function __construct(mixed $route)
     {
@@ -58,7 +58,7 @@ class Route{
     }
 
 
-    public function autoBindArguments($parameters,HttpRequest $httpRequest,$requiredParametersNumber) : void
+    public function autoBindArguments(array $parameters,HttpRequest $httpRequest,int $requiredParametersNumber) : void
     {
         $temp_params = $httpRequest->getParam();
         $httpRequest->clearParam();
@@ -87,7 +87,7 @@ class Route{
     /**
      * Get the value of controller
      */ 
-    public function getController()
+    public function getController() : string
     {
         return $this->controller;
     }
@@ -111,7 +111,7 @@ class Route{
     /**
      * Get the value of param
      */ 
-    public function getParam()
+    public function getParam() : array
     {
         return $this->param;
     }

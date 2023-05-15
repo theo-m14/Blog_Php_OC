@@ -18,7 +18,7 @@ class UserController extends BaseController{
     public function Authenticate(UserRepository $userRepository,string $login, string $password) : void
     {
         $user = $userRepository->getByUsername($login);
-        if($user and $password == password_verify($password,$user->getPassword())){
+        if($user && $password == password_verify($password,$user->getPassword())){
             $_SESSION['user'] = [];
             $_SESSION['user']['username'] = $user->getUsername();
             $_SESSION['user']['role'] = $user->getRole();

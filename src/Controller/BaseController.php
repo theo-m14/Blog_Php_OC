@@ -22,7 +22,7 @@ use App\Exception\ViewNotFoundException;
             $this->setTwig();
         }
 
-        protected function setTwig()
+        protected function setTwig() : void
         {
             $loader = new FilesystemLoader(__DIR__ . '/../View/');
             // initialiser l'environement Twig
@@ -47,7 +47,7 @@ use App\Exception\ViewNotFoundException;
             return $this->user;
         }
 
-        protected function render(string $filename, Array $data = [])
+        protected function render(string $filename, Array $data = []) : void 
         {
             $data['user'] = $this->getUser();
             $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);

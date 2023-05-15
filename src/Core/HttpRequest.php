@@ -8,10 +8,10 @@ class HttpRequest
 {
     private string $url;
     private string $method;
-    private $param;
+    private array $param;
     private Route $route;
 
-    public function __construct($url = null, $method = null)
+    public function __construct(string $url = null,string $method = null)
     {
         $this->url = (is_null($url)) ? $_SERVER['REQUEST_URI'] : $url;
         $this->method = (is_null($method)) ? $_SERVER['REQUEST_METHOD'] : $method;
@@ -21,7 +21,7 @@ class HttpRequest
     /**
      * Get the value of param
      */ 
-    public function getParam()
+    public function getParam() : array
     {
         return $this->param;
     }
@@ -45,12 +45,12 @@ class HttpRequest
     /**
      * Set the value of _route
      */ 
-    public function setRoute($route)
+    public function setRoute(Route $route) : void
     {
         $this->route = $route;
     }
 
-    public function bindParam()
+    public function bindParam() : void
     {
         switch($this->method)
         {
@@ -82,12 +82,12 @@ class HttpRequest
     }
 
     
-    public function addParam($value)
+    public function addParam(mixed $value) :void
     {
         $this->param[]= $value;
     }
 
-    public function getParamFromUrl()
+    public function getParamFromUrl() : array
     {
         $indexOfParams = strlen($this->route->getPath()) + 1;
         $params = [];
@@ -97,13 +97,13 @@ class HttpRequest
         return $params;
     }
 
-    public function run()
+    public function run() : void
     {
         $this->bindParam();
         $this->route->run($this);
     }
 
-    public function clearParam()
+    public function clearParam() :void
     {
         $this->param = [];
     }

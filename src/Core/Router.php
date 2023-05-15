@@ -20,7 +20,7 @@ class Router
         
         $url = str_replace($_ENV['BASE_PATH'],"",$httpRequest->getUrl());
         $method = $httpRequest->getMethod();
-        $routeFound = array_filter($this->listRoute,function($route) use ($url,$method){
+        $routeFound = array_filter($this->listRoute,function(object $route) use ($url,$method){
                 return preg_match("#^" . $route->path . "$#", $url) && $route->method == $method;
         });
         $numberRoute = count($routeFound);

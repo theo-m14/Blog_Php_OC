@@ -37,7 +37,7 @@ class BaseRepository
 
     }
 
-    public function insert(mixed $object,$param) : void
+    public function insert(mixed $object,array $param) : void
     {
         //Count number of parameter
         $paramNumber = count($param);
