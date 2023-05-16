@@ -27,14 +27,16 @@ class UserRepository extends BaseRepository
         }
     }
 
-    public function userExistByField(string $field, string $fieldValue) : bool
-    {
-        $allowedField = ['mail','username'];
-        if(!in_array($field,$allowedField)){
-            return true;
-        }
-        $req = $this->bdd->prepare("SELECT COUNT(*) FROM user WHERE ". $field . "=? ");
-        $req->execute(array($fieldValue));
+    public function userExistByMail(string $mail) : bool{
+        $req = $this->bdd->prepare("SELECT COUNT(*) FROM user WHERE mail=? ");
+        $req->execute(array($mail));
+        $result = $req->fetch();
+        return $result[0] > 0;
+    }
+
+    public function userExistByUsername(string $username) : bool{
+        $req = $this->bdd->prepare("SELECT COUNT(*) FROM user WHERE username=? ");
+        $req->execute(array($username));
         $result = $req->fetch();
         return $result[0] > 0;
     }

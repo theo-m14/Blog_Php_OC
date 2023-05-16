@@ -43,12 +43,12 @@ class UserController extends BaseController{
             $this->render("login.html.twig", ['error' => "Veuillez saisir une adresse mail valide"]);
             return;
         }
-        if($userRepository->userExistByField('mail',$mail)){
+        if($userRepository->userExistByMail($mail)){
             $this->render("login.html.twig", ['error' => "Cette adresse mail est déjà utilisé"]);
             return;
         }
         //Verif exist user by username
-        if($userRepository->userExistByField('username',$username)){
+        if($userRepository->userExistByUsername($username)){
             $this->render("login.html.twig", ['error' => "Ce pseudonyme n'est pas disponible"]);
             return;
         }
