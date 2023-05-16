@@ -18,7 +18,7 @@ class User{
         $this->role_id = $role_id;
     }
 
-    public function generalGetter($paramName)
+    public function generalGetter(string $paramName) : mixed
     {
         if(property_exists($this,$paramName))
 			{
