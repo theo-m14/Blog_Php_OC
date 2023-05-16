@@ -14,7 +14,7 @@ class Route{
     private string $controller;
     private string $action;
     private string $method;
-    private array $param;
+    private array|string $param;
 
     public function __construct(mixed $route)
     {
@@ -111,7 +111,7 @@ class Route{
     /**
      * Get the value of param
      */
-    public function getParam() : array
+    public function getParam() : array|string
     {
         return $this->param;
     }

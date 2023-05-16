@@ -17,9 +17,10 @@ class UserController extends BaseController{
 
     public function authenticate(UserRepository $userRepository,string $login, string $password) : void
     {
-        $user = $userRepository->getByUsername($login);
+        $user = $userRepository->getByMail($login);
         if($user && $password == password_verify($password,$user->getPassword())){
             $_SESSION['user'] = [];
+            $_SESSION['user']['mail'] = $user->getMail();
             $_SESSION['user']['username'] = $user->getUsername();
             $_SESSION['user']['role'] = $user->getRole();
             $this->setUser();
@@ -36,6 +37,27 @@ class UserController extends BaseController{
 
     public function createUser(UserRepository $userRepository,string $username,string $mail,string $password) : void
     {
+        //Verif valid email
+        $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+        if(!preg_match($emailPattern,$mail)){
+            $this->render("login.html.twig", ['error' => "Veuillez saisir une adresse mail valide"]);
+            return;
+        }
+        if($userRepository->userExistByField('mail',$mail)){
+            $this->render("login.html.twig", ['error' => "Cette adresse mail est déjà utilisé"]);
+            return;
+        }
+        //Verif exist user by username
+        if($userRepository->userExistByField('username',$username)){
+            $this->render("login.html.twig", ['error' => "Ce pseudonyme n'est pas disponible"]);
+            return;
+        }
+        //Verif valid password
+        $passwordPattern = '/^(?=.*[0-9])[a-zA-Z0-9]{6,}$/';
+        if(!preg_match($passwordPattern, $password)){
+            $this->render("login.html.twig", ['error' => "Votre mot de passe doit contenir au moins 6 caractères dont un chiffre"]);
+        }
+
         $hash_password = password_hash($password,PASSWORD_DEFAULT);
         $param = ["username","mail","password","role_id"];
         $user = new User($mail,$username,$hash_password,3);

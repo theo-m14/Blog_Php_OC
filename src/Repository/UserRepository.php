@@ -27,17 +27,16 @@ class UserRepository extends BaseRepository
         }
     }
 
-    public function getByUsername(string $username) : User|bool
+    public function userExistByField(string $field, string $fieldValue) : bool
     {
-        $req = $this->bdd->prepare("SELECT * FROM user WHERE username=?");
-        $req->execute(array($username));
-        $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->getObject());
-        $user = $req->fetch();
-        if($user){
-            return $this->retrieveRole($user);
-        }else{
-            return $user;
+        $allowedField = ['mail','username'];
+        if(!in_array($field,$allowedField)){
+            return true;
         }
+        $req = $this->bdd->prepare("SELECT COUNT(*) FROM user WHERE ". $field . "=? ");
+        $req->execute(array($fieldValue));
+        $result = $req->fetch();
+        return $result[0] > 0;
     }
 
     public function retrieveRole(User $user) : User

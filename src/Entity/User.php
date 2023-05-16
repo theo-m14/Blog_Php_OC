@@ -18,6 +18,17 @@ class User{
         $this->role_id = $role_id;
     }
 
+    public function generalGetter($paramName)
+    {
+        if(property_exists($this,$paramName))
+			{
+				return $this->$paramName;
+			}
+			else
+			{
+				throw new PropertyNotFoundException($this->$this,$paramName);
+			}
+    }
 
     public function getMail() : string
     {
