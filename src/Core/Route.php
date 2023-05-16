@@ -2,19 +2,21 @@
 
 namespace App\Core;
 
+use Exception;
+use App\Controller\BaseController;
 use App\Exception\ActionNotFoundException;
-use App\Exception\ControllerNotFoundException;
 use App\Exception\MissingArgumentException;
+use App\Exception\ControllerNotFoundException;
 
 class Route{
-    
-    private $path;
-    private $controller;
-    private $action;
-    private $method;
-    private $param;
 
-    public function __construct($route)
+    private string $path;
+    private string $controller;
+    private string $action;
+    private string $method;
+    private array|string $param;
+
+    public function __construct(mixed $route)
     {
         $this->path = $route->path;
         $this->controller = $route->controller;
@@ -23,19 +25,24 @@ class Route{
         $this->param = $route->param;
     }
 
-    public function run($httpRequest)
+    public function run(HttpRequest $httpRequest) : void
     {
         $controller = null;
 			$controllerName = 'App\Controller\\' . $this->controller . "Controller";
             if(class_exists($controllerName))
             {
-				
+
                 $controller = new $controllerName($httpRequest);
                 if(method_exists($controller, $this->action))
                 {
                     $testParameters = new \ReflectionMethod($controller,$this->action);
-                    if(count($httpRequest->getParam()) < $testParameters->getNumberOfRequiredParameters()){
-                        throw new MissingArgumentException();
+                    $requiredParametersNumber = $testParameters->getNumberOfRequiredParameters();
+                    if(count($httpRequest->getParam()) < $requiredParametersNumber){
+                        try{
+                            $this->autoBindArguments($testParameters->getParameters(),$httpRequest,$requiredParametersNumber);
+                        }catch(Exception $e){
+                            throw new MissingArgumentException();
+                        }
                     }
                     $controller->{$this->action}(...$httpRequest->getParam());
                 }
@@ -49,42 +56,62 @@ class Route{
                 throw new ControllerNotFoundException();
             }
     }
+
+
+    public function autoBindArguments(array $parameters,HttpRequest $httpRequest,int $requiredParametersNumber) : void
+    {
+        $temp_params = $httpRequest->getParam();
+        $httpRequest->clearParam();
+        foreach($parameters as $parameter){
+            if(!in_array($parameter->getName(), $httpRequest->getParam())){
+                $className = $parameter->getType()->getName();
+                $new_parameters = new $className();
+                $httpRequest->addParam($new_parameters);
+            }
+            if((count($httpRequest->getParam()) + count($temp_params)) == $requiredParametersNumber){
+                break;
+            }
+        }
+        foreach($temp_params as $param){
+            $httpRequest->addParam($param);
+        }
+    }
     /**
      * Get the value of path
-     */ 
-    public function getPath()
+     */
+    public function getPath() : string
     {
         return $this->path;
     }
 
     /**
      * Get the value of controller
-     */ 
-    public function getController()
+     */
+    public function getController() : string
     {
         return $this->controller;
     }
 
     /**
      * Get the value of action
-     */ 
-    public function getAction()
+     */
+    public function getAction() : string
     {
         return $this->action;
     }
 
     /**
      * Get the value of method
-     */ 
-    public function getMethod()
+     */
+    public function getMethod() : string
     {
         return $this->method;
     }
 
     /**
      * Get the value of param
-     */ 
-    public function getParam()
+     */
+    public function getParam() : array|string
     {
         return $this->param;
     }

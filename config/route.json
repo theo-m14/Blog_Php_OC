@@ -2,15 +2,57 @@
     {
         "path" : "/",
         "controller" : "Home",
-        "action" : "Home",
+        "action" : "home",
         "method" : "GET",
         "param" : []
     },
     {
+        "path" : "/Register",
+        "controller" : "User",
+        "action" : "register",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/Register",
+        "controller" : "User",
+        "action" : "createUser",
+        "method" : "POST",
+        "param" : [
+            "username",
+            "mail",
+            "password"
+        ]
+    },
+    {
         "path" : "/Error",
         "controller": "Error",
-        "action": "Show",
+        "action": "show",
         "method": "GET",
         "param": ""
+    },
+    {
+        "path" : "/Login",
+        "controller" : "User",
+        "action" : "login",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/Login",
+        "controller" : "User",
+        "action" : "authenticate",
+        "method" : "POST",
+        "param" : [
+            "login",
+            "password"
+        ]
+    },
+    {
+        "path" : "/Logout",
+        "controller" : "User",
+        "action" : "logout",
+        "method" : "GET",
+        "param" : []
     }
 ]

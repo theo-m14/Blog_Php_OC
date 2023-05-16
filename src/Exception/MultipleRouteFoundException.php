@@ -4,8 +4,8 @@ namespace App\Exception;
 
 class MultipleRouteFoundException extends \Exception
 {
-    public function __construct($message = "More than 1 route found")
+    public function __construct(string $message = "More than 1 route found")
     {
-        parent::__construct($message, "0001");
+        parent::__construct($message);
     }
 }

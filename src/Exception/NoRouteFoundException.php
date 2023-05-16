@@ -7,15 +7,15 @@ use App\Core\HttpRequest;
 
 class NoRouteFoundException extends \Exception
 	{
-		private $httpRequest;
-		
-		public function __construct(HttpRequest $httpRequest,$message = "No route has been found")
+		private HttpRequest $httpRequest;
+
+		public function __construct(HttpRequest $httpRequest,string $message = "No route has been found")
 		{
 			$this->httpRequest = $httpRequest;
-			parent::__construct($message, "0002");
+			parent::__construct($message);
 		}
-		
-		public function getMoreDetail()
+
+		public function getMoreDetail() : string
 		{
 			return "Route '" . $this->httpRequest->getUrl() . "' has not been found with method '" . $this->httpRequest->getMethod() . "'";
 		}

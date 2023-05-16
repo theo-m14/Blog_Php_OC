@@ -1,1 +1,7 @@
 <h1>Hello World</h1>
+{% if user %}
+    <p class="navbar-text">Connecté en tant que {{ user.username }} ({{ user.role }})</p>
+    <a class="btn btn-primary" href="/Logout">Déconnexion</a>
+{% else %}
+    <a class="btn btn-primary" href="/Login">Connexion</a>
+{% endif %}

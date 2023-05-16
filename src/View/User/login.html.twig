@@ -1,0 +1,15 @@
+<div class="login-form">
+    <form action="Login" method="post">
+        {% if error %}
+        <div>{{ error }}</div>
+        {% endif %}
+        <h2>Connexion</h2>
+        <label for="login">Email</label>
+        <input type="text" name="login" />
+        <label for="password">Mot de passe</label>
+        <input type="password" name="password" />
+        <input type="submit" value="Se connecter" />
+        <p>Pas de compte ? <a href="/Register">S'enregistrer</a></p>
+        {# <p class="forgot-password">Mot de passe oublié?</p> #}
+    </form>
+</div>

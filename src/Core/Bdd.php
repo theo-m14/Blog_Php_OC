@@ -2,12 +2,14 @@
 
 namespace App\Core;
 
+use PDO;
+
 	class Bdd
 	{
-		private $bdd;
-		private static $instance;
-		
-		public static function getInstance()
+		private PDO $bdd;
+		private static Bdd $instance;
+
+		public static function getInstance() : PDO
 		{
 			if(empty(self::$instance))
 			{
@@ -21,8 +23,8 @@ namespace App\Core;
 								  $_ENV['DB_USER'],
 								  $_ENV['DB_PASSWORD']);
 		}
-		
-		public function getBdd()
+
+		public function getBdd() : PDO
 		{
 			return $this->bdd;
 		}

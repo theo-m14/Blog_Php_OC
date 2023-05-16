@@ -8,6 +8,7 @@ use App\Core\HttpRequest;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '../../config');
 $dotenv->load();
 
+   session_start();
     try{
         $httpRequest = new HttpRequest();
         $router = new Router();

@@ -1,0 +1,16 @@
+<div>
+    <form action="Register" method="post">
+        {% if error %}
+        <div >{{ error }}</div>
+        {% endif %}
+        <h2 >Enregistrement</h2>
+        <label for="username">Nom d'utilisateur</label>
+        <input type="text" id="username" name="username" />
+        <label for="mail">Email</label>
+        <input type="text" id="mail" name="mail" />
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" />
+        <input type="submit" value="S'enregistrer" />
+        {# <p class="forgot-password">Mot de passe oublié?</p> #}
+    </form>
+</div>

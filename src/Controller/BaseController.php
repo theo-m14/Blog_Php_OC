@@ -4,22 +4,25 @@ namespace App\Controller;
 
 use App\FileManager;
 use Twig\Environment;
+use App\Core\HttpRequest;
 use Twig\Loader\FilesystemLoader;
 use App\Exception\ViewNotFoundException;
 
 
     class BaseController
     {
-        private $httpRequest;
-        private $twig;
+        private HttpRequest $httpRequest;
+        private Array|null $user;
+        private Environment $twig;
 
-        public function __construct($httpRequest)
+        public function __construct(HttpRequest $httpRequest)
         {
             $this->httpRequest = $httpRequest;
+            $this->user = array_key_exists('user', $_SESSION) ? $_SESSION['user'] : null;
             $this->setTwig();
         }
 
-        protected function setTwig()
+        protected function setTwig() : void
         {
             $loader = new FilesystemLoader(__DIR__ . '/../View/');
             // initialiser l'environement Twig
@@ -29,8 +32,24 @@ use App\Exception\ViewNotFoundException;
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         }
 
-        protected function render($filename, Array $data = [])
+        public function setUser() : void
         {
-            return $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);
+            $this->user = $_SESSION['user'];
+        }
+
+        public function delUser() : void
+        {
+            $this->user = null;
+        }
+
+        public function getUser() : array|null
+        {
+            return $this->user;
+        }
+
+        protected function render(string $filename, Array $data = []) : void
+        {
+            $data['user'] = $this->getUser();
+            $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);
         }
     }
