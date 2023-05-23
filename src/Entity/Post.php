@@ -15,7 +15,7 @@ class Post
     private ?string $content;
     private ?int $user_id;
 
-    public function __construct(int $id = null, string $author = null, string $date = null, string $title = null, string $caption = null, string $content = null, ?int $userId = null)
+    public function __construct(string $title = null, string $caption = null, string $content = null, ?int $userId = null,string $date = null,int $id = null, string $author = null)
     {
         $this->id = $id;
         $this->author = $author;

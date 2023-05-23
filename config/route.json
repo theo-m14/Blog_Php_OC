@@ -61,5 +61,19 @@
         "action" : "readAll",
         "method" : "GET",
         "param" : []
+    },
+    {
+        "path" : "/Blog/Add",
+        "controller" : "Post",
+        "action" : "postForm",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/Blog/Add",
+        "controller" : "Post",
+        "action" : "add",
+        "method" : "POST",
+        "param" : ["title","caption","content"]
     }
 ]

@@ -1,0 +1,14 @@
+<form action="" method="POST">
+{% if error %}
+<p>{{error}}</p>
+{% endif %}
+<label for="title">Titre</label>
+<input type="text" name="title">
+<label for="caption">Légende</label>
+<input type="text" name="caption">
+<textarea name="content" cols="30" rows="10" placeholder="Votre contenu"></textarea>
+<button type="submit">Enregistrer</button>
+</form>
+<pre>
+    {{ dump(user) }}
+</pre>

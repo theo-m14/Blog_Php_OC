@@ -1,6 +1,6 @@
 <h1>Bienvenue sur notre blog</h1>
 {% if user %}
-<a href="#">Ajouter un nouveau sujet</a>
+<a href="/Blog/Add">Ajouter un nouveau sujet</a>
 {% endif %}
 {% for post in posts %}
     <h3>{{post.title}}</h3>
