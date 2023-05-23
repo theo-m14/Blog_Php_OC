@@ -69,12 +69,12 @@ class Post
     }
 
 
-    public function getUserId()
+    public function getUserId() : ?int
     {
         return $this->user_id;
     }
 
-    public function getAuthor()
+    public function getAuthor() : ?string
     {
         return $this->author;
     }
