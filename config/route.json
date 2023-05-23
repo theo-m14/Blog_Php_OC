@@ -75,5 +75,12 @@
         "action" : "add",
         "method" : "POST",
         "param" : ["title","caption","content"]
+    },
+    {
+        "path" : "/Publication/[id]",
+        "controller" : "Post",
+        "action" : "readOne",
+        "method" : "GET",
+        "param" : ["id"]
     }
 ]

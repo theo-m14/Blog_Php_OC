@@ -42,4 +42,10 @@ class PostController extends BaseController
         $postRepository->insert($post,$param);
         header('Location: /Blog');
     }
+
+    public function readOne(PostRepository $postRepository, int $id) : void
+    {
+        $post = $postRepository->getByField('id',$id);
+        $this->render("readone.html.twig", ['post' => $post]);
+    }
 }
