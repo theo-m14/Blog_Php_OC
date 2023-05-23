@@ -27,6 +27,14 @@ class UserRepository extends BaseRepository
         }
     }
 
+    public function getById(int $id) : mixed
+    {
+        $req = $this->bdd->prepare("SELECT * FROM user WHERE id=?");
+		$req->execute(array($id));
+		$req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
+		return $req->fetch();
+    }
+
     public function userExistByMail(string $mail) : bool{
         $req = $this->bdd->prepare("SELECT COUNT(*) FROM user WHERE mail=? ");
         $req->execute(array($mail));

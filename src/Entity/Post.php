@@ -2,19 +2,20 @@
 
 namespace App\Entity;
 
-use App\Exception\PropertyNotFoundException;
 use DateTime;
+use App\Exception\PropertyNotFoundException;
 
 class Post
 {
-    private int $id;
-    private string $author;
-    private DateTime $date;
-    private string $title;
-    private string $caption;
-    private string $content;
+    private ?int $id;
+    private ?string $author;
+    private ?string $date;
+    private ?string $title;
+    private ?string $caption;
+    private ?string $content;
+    private ?int $user_id;
 
-    public function __construct(int $id = null, string $author = null, DateTime $date = null, string $title = null, string $caption = null, string $content = null)
+    public function __construct(int $id = null, string $author = null, string $date = null, string $title = null, string $caption = null, string $content = null, ?int $userId = null)
     {
         $this->id = $id;
         $this->author = $author;
@@ -22,6 +23,7 @@ class Post
         $this->title = $title;
         $this->caption = $caption;
         $this->content = $content;
+        $this->user_id = $userId;
     }
 
     public function generalGetter(string $paramName) : mixed
@@ -36,34 +38,44 @@ class Post
 			}
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function getAuthor() : string
+    public function setAuthor(string $author) : void
     {
-        return $this->author;
+        $this->author = $author;
     }
 
-    public function getDate() : DateTime
+    public function getDate() : ?string
     {
         return $this->date;
     }
 
-    public function getTitle() : string
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    public function getCaption() : string
+    public function getCaption() : ?string
     {
         return $this->caption;
     }
 
-    public function getContent() : string
+    public function getContent() : ?string
     {
         return $this->content;
     }
 
+
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
+    }
 }

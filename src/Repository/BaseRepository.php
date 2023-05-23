@@ -10,7 +10,7 @@ use App\Exception\PropertyNotFoundException;
 class BaseRepository
 {
     private string $table;
-    private mixed $object;
+    protected mixed $object;
     protected PDO $bdd;
 
     public function __construct(string $table,string $object)
@@ -20,22 +20,6 @@ class BaseRepository
         $this->bdd = Bdd::getInstance();
     }
 
-    public function getById(int $id) : mixed
-    {
-        $req = $this->bdd->prepare("SELECT * FROM ? WHERE id=?");
-		$req->execute(array($this->table,$id));
-		$req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
-		return $req->fetch();
-    }
-
-    public function getAll() : array
-    {
-        $req = $this->bdd->prepare("SELECT * FROM ?");
-        $req->execute(array($this->table));
-        $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
-        return $req->fetchAll();
-
-    }
 
     public function insert(mixed $object,array $param) : void
     {

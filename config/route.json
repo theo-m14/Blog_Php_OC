@@ -54,5 +54,12 @@
         "action" : "logout",
         "method" : "GET",
         "param" : []
+    },
+    {
+        "path" : "/Blog",
+        "controller" : "Post",
+        "action" : "readAll",
+        "method" : "GET",
+        "param" : []
     }
 ]
