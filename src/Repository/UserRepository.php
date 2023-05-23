@@ -16,10 +16,7 @@ class UserRepository extends BaseRepository
 
     public function getByMail(string $mail) : User|bool
     {
-        $req = $this->bdd->prepare("SELECT * FROM user WHERE mail=?");
-        $req->execute(array($mail));
-        $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->getObject());
-        $user = $req->fetch();
+        $user = parent::getByField('mail',$mail);
         if($user){
             return $this->retrieveRole($user);
         }else{
@@ -27,24 +24,11 @@ class UserRepository extends BaseRepository
         }
     }
 
-    public function getById(int $id) : mixed
+    public function userExistByField(string $fieldName, string $fieldValue) : bool
     {
-        $req = $this->bdd->prepare("SELECT * FROM user WHERE id=?");
-		$req->execute(array($id));
-		$req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
-		return $req->fetch();
-    }
-
-    public function userExistByMail(string $mail) : bool{
-        $req = $this->bdd->prepare("SELECT COUNT(*) FROM user WHERE mail=? ");
-        $req->execute(array($mail));
-        $result = $req->fetch();
-        return $result[0] > 0;
-    }
-
-    public function userExistByUsername(string $username) : bool{
-        $req = $this->bdd->prepare("SELECT COUNT(*) FROM user WHERE username=? ");
-        $req->execute(array($username));
+        $sql = "SELECT COUNT(*) FROM user WHERE ". $fieldName ."=? ";
+        $req = $this->bdd->prepare($sql);
+        $req->execute(array($fieldValue));
         $result = $req->fetch();
         return $result[0] > 0;
     }

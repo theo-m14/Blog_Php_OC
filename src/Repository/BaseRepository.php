@@ -20,6 +20,24 @@ class BaseRepository
         $this->bdd = Bdd::getInstance();
     }
 
+    public function getAll() : array
+    {
+        $sql = "SELECT * FROM " . $this->table;
+        $req = $this->bdd->prepare($sql);
+        $req->execute();
+        $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
+        return $req->fetchAll();
+    }
+
+
+    public function getByField(string $fieldName, mixed $fieldValue) : mixed
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE ". $fieldName . "=?";
+        $req = $this->bdd->prepare($sql);
+		$req->execute(array($fieldValue));
+		$req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
+		return $req->fetch();
+    }
 
     public function insert(mixed $object,array $param) : void
     {

@@ -18,10 +18,7 @@ class PostRepository extends BaseRepository
 
     public function getAll() : array
     {
-        $req = $this->bdd->prepare("SELECT * FROM post");
-        $req->execute();
-        $req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
-        $posts = $req->fetchAll();
+        $posts = parent::getAll();
         foreach ($posts as $post)
         {
            $post->setAuthor($this->loadAuthor($post->getUserId()));
@@ -32,15 +29,7 @@ class PostRepository extends BaseRepository
     public function loadAuthor(int $id) : string
     {
         $userRepository = new UserRepository();
-        return $userRepository->getById($id)->getUsername();
-    }
-
-    public function getById(int $id) : mixed
-    {
-        $req = $this->bdd->prepare("SELECT * FROM post WHERE id=?");
-		$req->execute(array($id));
-		$req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
-		return $req->fetch();
+        return $userRepository->getByField('id',$id)->getUsername();
     }
 
 }
