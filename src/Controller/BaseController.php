@@ -52,4 +52,15 @@ use App\Exception\ViewNotFoundException;
             $data['user'] = $this->getUser();
             $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);
         }
+
+        public function isGranted(object $object) : bool
+        {
+            if (!$this->getUser()) {
+                return false;
+            }
+            if ($this->getUser()['role'] == "admin" || (method_exists($object, "getUserId") && $this->getUser()['id'] == $object->getUserId() )) {
+                return true;
+            }
+            return false;
+        }
     }

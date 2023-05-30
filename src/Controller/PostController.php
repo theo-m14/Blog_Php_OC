@@ -25,22 +25,30 @@ class PostController extends BaseController
 
     public function add(PostRepository $postRepository, string $title, string $caption, string $content) : void
     {
-        if (strlen($title) < 4) {
-            $this->render("add.html.twig", ["error" => "Votre titre doit faire plus de 4 caractères"]);
-            return;
-        }
-        if (strlen($caption) < 4) {
-            $this->render("add.html.twig", ["error" => "Votre légende doit faire plus de 4 caractères"]);
-            return;
-        }
-        if (strlen($content) < 20) {
-            $this->render("add.html.twig", ["error" => "Votre contenu doit faire plus de 20 caractères"]);
+        $error = $this->verifPost($title,$caption,$content);
+        if (!empty($error)) {
+            $this->render("add.html.twig", ["error" => $error]);
             return;
         }
         $post = new Post($title, $caption, $content, $this->getUser()["id"], date("Y-m-d H:i:s"));
         $param = ["title","caption","content","user_id","date"];
         $postRepository->insert($post, $param);
         header('Location: /Blog');
+    }
+
+    public function verifPost(string $title, string $caption, string $content) : array
+    {
+        $error = [];
+        if (strlen($title) < 4) {
+            $error['title'] = "Votre titre doit faire plus de 4 caractères";
+        }
+        if (strlen($caption) < 4) {
+            $error['caption'] = "Votre légende doit faire plus de 4 caractères";
+        }
+        if (strlen($content) < 20) {
+            $error['content'] = "Votre contenu doit faire plus de 20 caractères";
+        }
+        return $error;
     }
 
     public function readOne(PostRepository $postRepository, int $id) : void
@@ -59,15 +67,16 @@ class PostController extends BaseController
         $this->render("add.html.twig", ['post' => $post]);
     }
 
-    public function update(
-        PostRepository $postRepository,
-        string $title,
-        string $caption,
-        string $content,
-        string $postId
-        ) : void {
-
-        //include verif
+    public function update(PostRepository $postRepository, string $title, string $caption, string $content, string $postId) : void
+    {
+        //postExist
+        //string verif
+        $error = $this->verifPost($title,$caption,$content);
+        if (!empty($error)) {
+            $post = $postRepository->getByField('id', $postId);
+            $this->render("add.html.twig", ["error" => $error, "post" => $post]);
+            return;
+        }
         $postId = intval($postId);
         $post = new Post($title, $caption, $content, $this->getUser()['id'], date("Y-m-d H:i:s"), $postId);
         $params = ['title','caption','content','date','user_id'];

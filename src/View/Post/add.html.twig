@@ -1,12 +1,18 @@
 <form action={% if post %} "/Publication/Update" {% endif %} method="POST">
-{% if error %}
-<p>{{error}}</p>
-{% endif %}
 <label for="title">Titre</label>
 <input type="text" name="title" {% if post %} value="{{post.title}}" {% endif %}>
+{% if error.title %}
+<p>{{error.title}}</p>
+{% endif %}
 <label for="caption">Légende</label>
 <input type="text" name="caption" {% if post %} value="{{post.caption}}" {% endif %}>
+{% if error.caption %}
+<p>{{error.caption}}</p>
+{% endif %}
 <textarea name="content" cols="30" rows="10" placeholder="Votre contenu">{% if post %} {{post.content}} {% endif %}</textarea>
+{% if error.content %}
+<p>{{error.content}}</p>
+{% endif %}
 {% if post %}
 <input type="hidden" name="post_id" value="{{post.id}}">
 {% endif %}
