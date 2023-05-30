@@ -29,18 +29,19 @@ class Route{
     {
         $controller = null;
 			$controllerName = 'App\Controller\\' . $this->controller . "Controller";
-            if(class_exists($controllerName))
-            {
+            if (class_exists($controllerName)) {
 
                 $controller = new $controllerName($httpRequest);
-                if(method_exists($controller, $this->action))
-                {
+                if (method_exists($controller, $this->action)) {
                     $testParameters = new \ReflectionMethod($controller,$this->action);
                     $requiredParametersNumber = $testParameters->getNumberOfRequiredParameters();
-                    if(count($httpRequest->getParam()) < $requiredParametersNumber){
+                    if (count($httpRequest->getParam()) < $requiredParametersNumber) {
                         try{
-                            $this->autoBindArguments($testParameters->getParameters(),$httpRequest,$requiredParametersNumber);
-                        }catch(Exception $e){
+                            $this->autoBindArguments(
+                                $testParameters->getParameters(),
+                                $httpRequest,
+                                $requiredParametersNumber);
+                        } catch(Exception $e) {
                             throw new MissingArgumentException();
                         }
                     }
@@ -58,21 +59,21 @@ class Route{
     }
 
 
-    public function autoBindArguments(array $parameters,HttpRequest $httpRequest,int $requiredParametersNumber) : void
+    public function autoBindArguments(array $parameters, HttpRequest $httpRequest, int $requiredParametersNumber) : void
     {
-        $temp_params = $httpRequest->getParam();
+        $tempParams = $httpRequest->getParam();
         $httpRequest->clearParam();
-        foreach($parameters as $parameter){
-            if(!in_array($parameter->getName(), $httpRequest->getParam())){
+        foreach ($parameters as $parameter) {
+            if (!in_array($parameter->getName(), $httpRequest->getParam())) {
                 $className = $parameter->getType()->getName();
-                $new_parameters = new $className();
-                $httpRequest->addParam($new_parameters);
+                $newParameters = new $className();
+                $httpRequest->addParam($newParameters);
             }
-            if((count($httpRequest->getParam()) + count($temp_params)) == $requiredParametersNumber){
+            if ((count($httpRequest->getParam()) + count($tempParams)) == $requiredParametersNumber) {
                 break;
             }
         }
-        foreach($temp_params as $param){
+        foreach ($tempParams as $param) {
             $httpRequest->addParam($param);
         }
     }

@@ -13,14 +13,14 @@ class PostRepository extends BaseRepository
 
     public function __construct()
     {
-        parent::__construct("post","Post");
+        parent::__construct("post", "Post");
     }
 
     public function getAll() : array
     {
         $posts = parent::getAll();
-        foreach ($posts as $post)
-        {
+        foreach ($posts as $post) {
+            //Set author username using post.user_id relation
            $post->setAuthor($this->loadAuthor($post->getUserId()));
         }
         return $posts;
@@ -28,7 +28,7 @@ class PostRepository extends BaseRepository
 
     public function getByField(string $fieldName, mixed $fieldValue): mixed
     {
-        $post = parent::getByField($fieldName,$fieldValue);
+        $post = parent::getByField($fieldName, $fieldValue);
         $post->setAuthor($this->loadAuthor($post->getUserId()));
         return $post;
     }
@@ -36,7 +36,7 @@ class PostRepository extends BaseRepository
     public function loadAuthor(int $id) : string
     {
         $userRepository = new UserRepository();
-        return $userRepository->getByField('id',$id)->getUsername();
+        return $userRepository->getByField('id', $id)->getUsername();
     }
 
 }

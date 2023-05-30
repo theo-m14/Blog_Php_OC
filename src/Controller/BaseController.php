@@ -12,7 +12,7 @@ use App\Exception\ViewNotFoundException;
     class BaseController
     {
         private HttpRequest $httpRequest;
-        private Array|null $user;
+        private array|null $user;
         private Environment $twig;
 
         public function __construct(HttpRequest $httpRequest)
@@ -47,7 +47,7 @@ use App\Exception\ViewNotFoundException;
             return $this->user;
         }
 
-        protected function render(string $filename, Array $data = []) : void
+        protected function render(string $filename, array $data = []) : void
         {
             $data['user'] = $this->getUser();
             $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);

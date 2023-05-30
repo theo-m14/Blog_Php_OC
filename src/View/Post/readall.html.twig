@@ -8,4 +8,8 @@
     <p>Auteur : {{post.author}}</p>
     <p>Date de modification : {{post.date|date("d/m/y")}}</p>
     <a href="/Publication/{{post.id}}">Voir</a>
+    {% if user.id == post.userid %}
+    <a href="/PostEdit/{{post.id}}">Modifier</a>
+    {% endif %}
+
 {% endfor %}

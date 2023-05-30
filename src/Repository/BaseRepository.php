@@ -13,7 +13,7 @@ class BaseRepository
     protected mixed $object;
     protected PDO $bdd;
 
-    public function __construct(string $table,string $object)
+    public function __construct(string $table, string $object)
     {
         $this->table = $table;
         $this->object = 'App\Entity\\' . $object;
@@ -39,7 +39,7 @@ class BaseRepository
 		return $req->fetch();
     }
 
-    public function insert(mixed $object,array $param) : void
+    public function insert(mixed $object, array $param) : void
     {
         //Count number of parameter
         $paramNumber = count($param);
@@ -75,6 +75,33 @@ class BaseRepository
 			{
 				throw new PropertyNotFoundException($this->object,"id");
 			}
+    }
+
+    public function update($object, $param)
+    {
+        $sql = "UPDATE " . $this->table . " SET ";
+        foreach($param as $paramName)
+        {
+            $sql = $sql . $paramName . " = :" . $paramName .", ";
+        }
+        $sql = rtrim($sql,", ");
+        $sql = $sql . " WHERE id = :id ";
+        $req = $this->bdd->prepare($sql);
+
+        $param[] = 'id';
+        $boundParam = array();
+        foreach($param as $paramName)
+        {
+            if (property_exists($object,$paramName))
+            {
+                $boundParam[$paramName] = $object->generalGetter($paramName);
+            }
+            else
+            {
+                throw new PropertyNotFoundException($this->object,$paramName);
+            }
+        }
+        $req->execute($boundParam);
     }
 
     public function getObject() : mixed

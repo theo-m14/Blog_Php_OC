@@ -82,5 +82,19 @@
         "action" : "readOne",
         "method" : "GET",
         "param" : ["id"]
+    },
+    {
+        "path" : "/PostEdit/[id]",
+        "controller" : "Post",
+        "action" : "editForm",
+        "method" : "GET",
+        "param" : ["id"]
+    },
+    {
+        "path" : "/Publication/Update",
+        "controller" : "Post",
+        "action" : "update",
+        "method" : "POST",
+        "param" : ["title","caption","content","post_id"]
     }
 ]

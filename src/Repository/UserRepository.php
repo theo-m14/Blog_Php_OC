@@ -17,7 +17,7 @@ class UserRepository extends BaseRepository
     public function getByMail(string $mail) : User|bool
     {
         $user = parent::getByField('mail',$mail);
-        if($user){
+        if ($user) {
             return $this->retrieveRole($user);
         }else{
             return $user;
