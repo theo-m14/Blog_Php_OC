@@ -3,10 +3,13 @@
 namespace App\Core;
 
 use Exception;
-use App\Controller\BaseController;
+use ReflectionClass;
+use ReflectionParameter;
+use ReflectionUnionType;
 use App\Exception\ActionNotFoundException;
 use App\Exception\MissingArgumentException;
 use App\Exception\ControllerNotFoundException;
+use App\Exception\WrongArgumentsTypeException;
 
 class Route{
 
@@ -45,6 +48,14 @@ class Route{
                             throw new MissingArgumentException();
                         }
                     }
+
+                    $parameters = $testParameters->getParameters();
+
+                    if(!$this->validArguments($httpRequest,$parameters))
+                    {
+                        throw new WrongArgumentsTypeException;
+                    }
+
                     $controller->{$this->action}(...$httpRequest->getParam());
                 }
                 else
@@ -56,6 +67,80 @@ class Route{
             {
                 throw new ControllerNotFoundException();
             }
+    }
+
+    public function getType(ReflectionParameter $reflectionParameter) : ?object
+    {
+        $reflectionType = $reflectionParameter->getType();
+
+        if (!$reflectionType) {
+            return null;
+        }
+
+        return $reflectionType instanceof ReflectionUnionType
+            ? $reflectionType->getTypes()[0]
+            : $reflectionType;
+    }
+
+    public function validArguments($httpRequest,$parameters) : bool
+    {
+        foreach($parameters as $key => $parameter)
+        {
+            $param = $this->performAutoCast($httpRequest->getParam()[$key],$this->getType($parameter)->getName());
+            if(!$this->isTypeOf($param,$this->getType($parameter)->getName()))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function isTypeOf(mixed $object,string $typeName) : bool
+    {
+        switch ($typeName) {
+            case 'int':
+                $result = is_int($object);
+                break;
+            case 'float':
+                $result = is_float($object);
+                break;
+            case 'string':
+                $result = is_string($object);
+                break;
+            case 'bool':
+                $result = is_bool($object);
+                break;
+            // Ajoutez d'autres cas pour les types que vous souhaitez gérer
+            default:
+                $reflectionClass = new ReflectionClass($typeName);
+                $result = $reflectionClass->isInstance($object);
+        }
+        return $result;
+    }
+
+    public function performAutoCast($value, $type) {
+        switch ($type) {
+            case 'int':
+                $result = (int) $value;
+                if($result === 0){
+                    $result = $value;
+                }
+                break;
+            case 'float':
+                $result = (float) $value;
+                if($result === 0.0){
+                    $result = $value;
+                }
+                break;
+            case 'string':
+                $result = (string) $value;
+                break;
+            default:
+                $result = $value;
+                break;
+        }
+
+        return $result;
     }
 
 

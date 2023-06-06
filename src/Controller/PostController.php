@@ -17,7 +17,7 @@ class PostController extends BaseController
     public function postForm() : void
     {
         if (!$this->getUser()) {
-            $this->redirectTo('/');
+            $this->redirectTo('/',403);
             return;
         }
         $this->render("add.html.twig");
@@ -33,7 +33,7 @@ class PostController extends BaseController
         $post = new Post($title, $caption, $content, $this->getUser()["id"], date("Y-m-d H:i:s"));
         $param = ["title","caption","content","user_id","date"];
         $postRepository->insert($post, $param);
-        $this->redirectTo('/blog');
+        $this->redirectTo('/blog',200);
     }
 
     public function verifPost(string $title, string $caption, string $content) : array
@@ -55,7 +55,7 @@ class PostController extends BaseController
     {
         $post = $postRepository->getByField('id', $id);
         if (empty($post)) {
-            $this->redirectTo('/blog');
+            $this->redirectTo('/blog',404);
             return;
         }
         $this->render("readone.html.twig", ['post' => $post]);
@@ -65,7 +65,7 @@ class PostController extends BaseController
     {
         $post = $postRepository->getByField('id', $id);
         if (empty($post) || !$this->isGranted($post)) {
-            $this->redirectTo('/blog');
+            $this->redirectTo('/blog',403);
             return;
         }
         $this->render("add.html.twig", ['post' => $post]);
@@ -75,7 +75,7 @@ class PostController extends BaseController
     {
         $post = $postRepository->getByField('id', $postId);
         if (empty($post) || !$this->isGranted($post)) {
-            $this->redirectTo('/blog');
+            $this->redirectTo('/blog',403);
             return;
         }
         //string verif
@@ -88,6 +88,6 @@ class PostController extends BaseController
         $post = new Post($title, $caption, $content, $this->getUser()['id'], date("Y-m-d H:i:s"), $postId);
         $params = ['title','caption','content','date','user_id'];
         $postRepository->update($post, $params);
-        $this->redirectTo('/blog');
+        $this->redirectTo('/blog',200);
     }
 }

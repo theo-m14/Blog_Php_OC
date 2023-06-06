@@ -65,12 +65,13 @@ use App\Exception\ViewNotFoundException;
             return false;
         }
 
-        public function redirectTo(string $route) : void
+        public function redirectTo(string $route,int $httpCode) : void
         {
-            $httpRequest = new HttpRequest($route, "GET");
-            $router = new Router();
-            $httpRequest->setRoute($router->findRoute($httpRequest));
-
-            $httpRequest->run();
+            if($httpCode === 404){
+                header('Location: /error');
+                exit;
+            }
+            header('Location: ' . $route,true,$httpCode);
+            exit;
         }
     }
