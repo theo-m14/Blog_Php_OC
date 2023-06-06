@@ -29,7 +29,9 @@ class PostRepository extends BaseRepository
     public function getByField(string $fieldName, mixed $fieldValue): mixed
     {
         $post = parent::getByField($fieldName, $fieldValue);
-        $post->setAuthor($this->loadAuthor($post->getUserId()));
+        if($post){
+            $post->setAuthor($this->loadAuthor($post->getUserId()));
+        }
         return $post;
     }
 

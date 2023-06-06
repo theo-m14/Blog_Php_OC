@@ -17,7 +17,7 @@ class PostController extends BaseController
     public function postForm() : void
     {
         if (!$this->getUser()) {
-            header('Location: /');
+            $this->redirectTo('/');
             return;
         }
         $this->render("add.html.twig");
@@ -33,7 +33,7 @@ class PostController extends BaseController
         $post = new Post($title, $caption, $content, $this->getUser()["id"], date("Y-m-d H:i:s"));
         $param = ["title","caption","content","user_id","date"];
         $postRepository->insert($post, $param);
-        header('Location: /Blog');
+        $this->redirectTo('/blog');
     }
 
     public function verifPost(string $title, string $caption, string $content) : array
@@ -54,14 +54,18 @@ class PostController extends BaseController
     public function readOne(PostRepository $postRepository, int $id) : void
     {
         $post = $postRepository->getByField('id', $id);
+        if (empty($post)) {
+            $this->redirectTo('/blog');
+            return;
+        }
         $this->render("readone.html.twig", ['post' => $post]);
     }
 
     public function editForm(PostRepository $postRepository, int $id) : void
     {
         $post = $postRepository->getByField('id', $id);
-        if ($this->getUser()['id'] != $post->getUserId()) {
-            header('Location: /Blog');
+        if (empty($post) || !$this->isGranted($post)) {
+            $this->redirectTo('/blog');
             return;
         }
         $this->render("add.html.twig", ['post' => $post]);
@@ -69,11 +73,14 @@ class PostController extends BaseController
 
     public function update(PostRepository $postRepository, string $title, string $caption, string $content, string $postId) : void
     {
-        //postExist
+        $post = $postRepository->getByField('id', $postId);
+        if (empty($post) || !$this->isGranted($post)) {
+            $this->redirectTo('/blog');
+            return;
+        }
         //string verif
         $error = $this->verifPost($title,$caption,$content);
         if (!empty($error)) {
-            $post = $postRepository->getByField('id', $postId);
             $this->render("add.html.twig", ["error" => $error, "post" => $post]);
             return;
         }
@@ -81,6 +88,6 @@ class PostController extends BaseController
         $post = new Post($title, $caption, $content, $this->getUser()['id'], date("Y-m-d H:i:s"), $postId);
         $params = ['title','caption','content','date','user_id'];
         $postRepository->update($post, $params);
-        header('Location: /Blog');
+        $this->redirectTo('/blog');
     }
 }

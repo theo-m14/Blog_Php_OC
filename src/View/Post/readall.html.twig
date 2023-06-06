@@ -1,15 +1,15 @@
 <h1>Bienvenue sur notre blog</h1>
 {% if user %}
-<a href="/Blog/Add">Ajouter un nouveau sujet</a>
+<a href="/blog/add">Ajouter un nouveau sujet</a>
 {% endif %}
 {% for post in posts %}
-    <h3>{{post.title}}</h3>
-    <p><strong>{{post.caption}}</strong></p>
-    <p>Auteur : {{post.author}}</p>
+    <h3>{{post.title|escape}}</h3>
+    <p><strong>{{post.caption|escape}}</strong></p>
+    <p>Auteur : {{post.author|escape}}</p>
     <p>Date de modification : {{post.date|date("d/m/y")}}</p>
-    <a href="/Publication/{{post.id}}">Voir</a>
+    <a href="/post/{{post.id}}">Voir</a>
     {% if user.id == post.userid %}
-    <a href="/PostEdit/{{post.id}}">Modifier</a>
+    <a href="/post/update/{{post.id}}">Modifier</a>
     {% endif %}
 
 {% endfor %}

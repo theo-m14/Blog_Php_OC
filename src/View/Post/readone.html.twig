@@ -1,5 +1,5 @@
-<h1>{{post.title}}</h1>
-<p><strong>{{post.caption}}</strong></p>
-<p>{{post.content}}</p>
-<p>Auteur : {{post.author}}</p>
+<h1>{{post.title|escape}}</h1>
+<p><strong>{{post.caption|escape}}</strong></p>
+<p>{{post.content|escape}}</p>
+<p>Auteur : {{post.author|escape}}</p>
 <p>Date de modification : {{post.date|date("d/m/y")}}</p>

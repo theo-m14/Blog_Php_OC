@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Core\Router;
 use App\FileManager;
 use Twig\Environment;
 use App\Core\HttpRequest;
@@ -62,5 +63,14 @@ use App\Exception\ViewNotFoundException;
                 return true;
             }
             return false;
+        }
+
+        public function redirectTo(string $route) : void
+        {
+            $httpRequest = new HttpRequest($route, "GET");
+            $router = new Router();
+            $httpRequest->setRoute($router->findRoute($httpRequest));
+
+            $httpRequest->run();
         }
     }

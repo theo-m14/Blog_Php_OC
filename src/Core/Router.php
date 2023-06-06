@@ -22,9 +22,7 @@ class Router
         $method = $httpRequest->getMethod();
         $routeFound = array_filter($this->listRoute, function(object $route) use ($url,$method){
             if (str_contains($route->path,'[')) {
-                $route->path = substr($route->path,0,strpos($route->path,'[')-1);
-                $tempUrl = substr_count($url,'/') > 1 ? substr($url, 0, strpos($url,'/',1)) : $url;
-                return preg_match("#^" . $route->path . "$#", $tempUrl) && $route->method == $method;
+                return $this->sameGetPath($url,$route,$method);
             }else {
                 return preg_match("#^" . $route->path . "$#", $url) && $route->method == $method;
             }
@@ -42,5 +40,30 @@ class Router
         {
             return new Route(array_shift($routeFound));
         }
+    }
+
+
+    public function sameGetPath(string $url,object $route,string $method) : bool
+    {
+        $path =  explode('/', $route->path);
+        $tempUrl = explode('/', $url);
+
+        if(count($path) != count($tempUrl)){
+            return false;
+        }
+
+        foreach ($path as $key => $value) {
+            if (str_contains($value, '[')) {
+                $tempUrl[$key] = $value;
+            }
+        }
+
+        if($tempUrl == $path && $route->method == $method)
+        {
+            $route->path = substr($route->path,0,strpos($route->path,'[')-1);
+            return true;
+        }
+
+        return false;
     }
 }

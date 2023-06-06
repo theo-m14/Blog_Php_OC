@@ -11,7 +11,7 @@ class UserController extends BaseController
     public function login() : void
     {
         if ($this->getUser()) {
-            header('Location: /');
+            $this->redirectTo('/');
         }else {
             $this->render("login.html.twig");
         }
@@ -27,7 +27,7 @@ class UserController extends BaseController
             $_SESSION['user']['role'] = $user->getRole();
             $_SESSION['user']['id'] = $user->getId();
             $this->setUser();
-            header('Location: /');
+            $this->redirectTo('/');
         }else {
             $this->render("login.html.twig", ['error' => "Identifiant incorrect"]);
         }
@@ -68,13 +68,13 @@ class UserController extends BaseController
         $param = ["username","mail","password","role_id"];
         $user = new User($mail, $username, $hashPassword, 3);
         $userRepository->insert($user, $param);
-        header('Location: /Login');
+        $this->redirectTo('/login');
     }
 
     public function logout() : void
     {
         $this->delUser();
         session_destroy();
-        header('Location: /');
+        $this->redirectTo('/');
     }
 }
