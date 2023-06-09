@@ -51,6 +51,7 @@ use App\Exception\ViewNotFoundException;
         protected function render(string $filename, array $data = []) : void
         {
             $data['user'] = $this->getUser();
+            $data['appEnv'] = $_ENV['APP_ENV'];
             $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);
         }
 
