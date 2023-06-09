@@ -11,17 +11,18 @@ use PDO;
 
 		public static function getInstance() : PDO
 		{
-			if(empty(self::$instance))
-			{
+			if (empty(self::$instance)) {
 				self::$instance = new Bdd();
 			}
 			return self::$instance->bdd;
 		}
 		private function __construct()
 		{
-			$this->bdd = new \PDO('mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'],
-								  $_ENV['DB_USER'],
-								  $_ENV['DB_PASSWORD']);
+			$this->bdd = new \PDO(
+	  			'mysql:dbname=' . $_ENV['DB_NAME'] . ';host=' . $_ENV['DB_HOST'],
+				$_ENV['DB_USER'],
+				$_ENV['DB_PASSWORD']
+			);
 		}
 
 		public function getBdd() : PDO

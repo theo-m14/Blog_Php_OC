@@ -1,4 +1,9 @@
-<div class="error">
+{% if appEnv == 'prod' %}
+    <h2>Page 404</h2>
+    <p>Une erreur s'est produite la page demandé n'est pas disponible</p>
+    <a href="/">Retour à l'accueil</a>
+{% else %}
+    <div class="error">
     <h1>Une erreur s'est produite</h1>
     <div class="error-message">Message : {{ exception.getMessage()}} </div>
     <div class="error-stack">Pile d'exécution : {{ exception.getTraceAsString() }}</div>
@@ -6,3 +11,4 @@
     <div class="error-detail">{{ exception.getMoreDetail() }}</div>
     {% endif %}
 </div>
+{% endif %}

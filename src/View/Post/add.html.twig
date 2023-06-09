@@ -1,0 +1,25 @@
+<form action={% if post %}
+                "/post/update"
+             {% else %}
+                "/blog/add"
+             {% endif %} method="POST">
+<label for="title">Titre</label>
+<input type="text" name="title" {% if post %} value="{{post.title|escape}}" {% endif %}>
+{% if error.title %}
+<p>{{error.title}}</p>
+{% endif %}
+<label for="caption">Légende</label>
+<input type="text" name="caption" {% if post %} value="{{post.caption|escape}}" {% endif %}>
+{% if error.caption %}
+<p>{{error.caption}}</p>
+{% endif %}
+<textarea name="content" cols="30" rows="10" placeholder="Votre contenu">{% if post %} {{post.content|escape}} {% endif %}</textarea>
+{% if error.content %}
+<p>{{error.content}}</p>
+{% endif %}
+{% if post %}
+<input type="hidden" name="post_id" value="{{post.id}}">
+{% endif %}
+
+<button type="submit">Enregistrer</button>
+</form>

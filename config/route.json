@@ -7,14 +7,14 @@
         "param" : []
     },
     {
-        "path" : "/Register",
+        "path" : "/register",
         "controller" : "User",
         "action" : "register",
         "method" : "GET",
         "param" : []
     },
     {
-        "path" : "/Register",
+        "path" : "/register",
         "controller" : "User",
         "action" : "createUser",
         "method" : "POST",
@@ -25,21 +25,21 @@
         ]
     },
     {
-        "path" : "/Error",
+        "path" : "/error",
         "controller": "Error",
         "action": "show",
         "method": "GET",
         "param": ""
     },
     {
-        "path" : "/Login",
+        "path" : "/login",
         "controller" : "User",
         "action" : "login",
         "method" : "GET",
         "param" : []
     },
     {
-        "path" : "/Login",
+        "path" : "/login",
         "controller" : "User",
         "action" : "authenticate",
         "method" : "POST",
@@ -49,10 +49,52 @@
         ]
     },
     {
-        "path" : "/Logout",
+        "path" : "/logout",
         "controller" : "User",
         "action" : "logout",
         "method" : "GET",
         "param" : []
+    },
+    {
+        "path" : "/blog",
+        "controller" : "Post",
+        "action" : "readAll",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/blog/add",
+        "controller" : "Post",
+        "action" : "postForm",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/blog/add",
+        "controller" : "Post",
+        "action" : "add",
+        "method" : "POST",
+        "param" : ["title","caption","content"]
+    },
+    {
+        "path" : "/post/[id]",
+        "controller" : "Post",
+        "action" : "readOne",
+        "method" : "GET",
+        "param" : ["id"]
+    },
+    {
+        "path" : "/post/update/[id]",
+        "controller" : "Post",
+        "action" : "editForm",
+        "method" : "GET",
+        "param" : ["id"]
+    },
+    {
+        "path" : "/post/update",
+        "controller" : "Post",
+        "action" : "update",
+        "method" : "POST",
+        "param" : ["title","caption","content","post_id"]
     }
 ]

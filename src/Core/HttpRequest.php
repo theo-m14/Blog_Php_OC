@@ -57,19 +57,21 @@ class HttpRequest
             case "GET":
             case "DELETE":
                     $params = $this->getParamFromUrl();
-                    foreach($params as $param){
+                    foreach ($params as $param) {
                             $this->param[] = $param;
                     }
+                    break;
             case "POST":
             case "PUT":
-                if(!empty($this->route->getParam()))
-                {
+                if (!empty($this->route->getParam())) {
                     foreach($this->route->getParam() as $param){
-                        if(isset($_POST[$param])){
+                        if (isset($_POST[$param])) {
                                 $this->param[] = $_POST[$param];
                         }
                     }
                 }
+                break;
+            default:
         }
     }
 
@@ -91,7 +93,7 @@ class HttpRequest
     {
         $indexOfParams = strlen($this->route->getPath()) + 1;
         $params = [];
-        if(strlen(substr($this->url,$indexOfParams)) > 0){
+        if (strlen(substr($this->url,$indexOfParams)) > 0) {
             $params = explode('/',substr($this->url,$indexOfParams));
         }
         return $params;

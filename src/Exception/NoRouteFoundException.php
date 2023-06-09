@@ -9,7 +9,7 @@ class NoRouteFoundException extends \Exception
 	{
 		private HttpRequest $httpRequest;
 
-		public function __construct(HttpRequest $httpRequest,string $message = "No route has been found")
+		public function __construct(HttpRequest $httpRequest, string $message = "No route has been found")
 		{
 			$this->httpRequest = $httpRequest;
 			parent::__construct($message);
