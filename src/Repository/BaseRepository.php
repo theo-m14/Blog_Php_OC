@@ -77,7 +77,7 @@ class BaseRepository
 			}
     }
 
-    public function update($object, $param)
+    public function update(object $object, array $param) : void
     {
         $sql = "UPDATE " . $this->table . " SET ";
         foreach($param as $paramName)

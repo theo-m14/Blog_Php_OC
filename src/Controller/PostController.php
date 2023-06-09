@@ -33,7 +33,7 @@ class PostController extends BaseController
         $post = new Post($title, $caption, $content, $this->getUser()["id"], date("Y-m-d H:i:s"));
         $param = ["title","caption","content","user_id","date"];
         $postRepository->insert($post, $param);
-        $this->redirectTo('/blog',200);
+        $this->redirectTo('/blog',302);
     }
 
     public function verifPost(string $title, string $caption, string $content) : array
@@ -88,6 +88,6 @@ class PostController extends BaseController
         $post = new Post($title, $caption, $content, $this->getUser()['id'], date("Y-m-d H:i:s"), $postId);
         $params = ['title','caption','content','date','user_id'];
         $postRepository->update($post, $params);
-        $this->redirectTo('/blog',200);
+        $this->redirectTo('/blog',302);
     }
 }

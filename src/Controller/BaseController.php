@@ -70,9 +70,8 @@ use App\Exception\ViewNotFoundException;
         {
             if($httpCode === 404){
                 header('Location: /error');
-                exit;
+            }else{
+                header('Location: ' . $route,true,$httpCode);
             }
-            header('Location: ' . $route,true,$httpCode);
-            exit;
         }
     }

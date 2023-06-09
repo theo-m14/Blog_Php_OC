@@ -82,7 +82,7 @@ class Route{
             : $reflectionType;
     }
 
-    public function validArguments($httpRequest,$parameters) : bool
+    public function validArguments(HttpRequest $httpRequest,array $parameters) : bool
     {
         foreach($parameters as $key => $parameter)
         {
@@ -118,7 +118,8 @@ class Route{
         return $result;
     }
 
-    public function performAutoCast($value, $type) {
+    public function performAutoCast(mixed $value,mixed $type) : mixed
+    {
         switch ($type) {
             case 'int':
                 $result = (int) $value;
