@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Controller\BaseController;
 use App\Entity\Post;
+use App\Repository\CommentRepository;
 use App\Repository\PostRepository;
 
 class PostController extends BaseController
@@ -51,14 +52,16 @@ class PostController extends BaseController
         return $error;
     }
 
-    public function readOne(PostRepository $postRepository, int $id) : void
+    public function readOne(PostRepository $postRepository,CommentRepository $commentRepository, int $id) : void
     {
         $post = $postRepository->getByField('id', $id);
         if (empty($post)) {
             $this->redirectTo('/blog',404);
             return;
         }
-        $this->render("readone.html.twig", ['post' => $post]);
+
+        $comments = $commentRepository->getAllByField('post_id',$id);
+        $this->render("readone.html.twig", ['post' => $post,'comments' => $comments]);
     }
 
     public function editForm(PostRepository $postRepository, int $id) : void

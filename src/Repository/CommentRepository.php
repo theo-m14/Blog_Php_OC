@@ -33,6 +33,15 @@ class CommentRepository extends BaseRepository
         return $comment;
     }
 
+    public function getAllByField(string $fieldName, mixed $fieldValue): array
+    {
+        $comments = parent::getAllByField($fieldName,$fieldValue);
+        foreach ($comments as $comment) {
+            $comment->setAuthor($this->loadAuthor($comment->getUserId()));
+        }
+        return $comments;
+    }
+
     public function loadAuthor(int $id) : string
     {
         $userRepository = new UserRepository();

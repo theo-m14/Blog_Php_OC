@@ -3,3 +3,12 @@
 <p>{{post.content|escape}}</p>
 <p>Auteur : {{post.author|escape}}</p>
 <p>Date de modification : {{post.date|date("d/m/y")}}</p>
+
+
+{% for comment in comments %}
+    <p>-----------------</p>
+    <p>Utilisateur : {{comment.author}}</p>
+    <p>{{comment.content}}</p>
+    <p>Posté le {{comment.date|date("d/m/y")}}</p>
+    <p>-----------------</p>
+{% endfor %}
