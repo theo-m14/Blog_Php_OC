@@ -4,23 +4,19 @@ namespace App\Entity;
 
 use App\Exception\PropertyNotFoundException;
 
-class Post
+class Comment
 {
     private ?int $id;
     private ?string $author;
-    private ?string $date;
-    private ?string $title;
-    private ?string $caption;
     private ?string $content;
+    private ?string $date;
     private ?int $user_id;
 
-    public function __construct(string $title = null, string $caption = null, string $content = null, ?int $userId = null,string $date = null,int $id = null, string $author = null)
+    public function __construct(string $content = null, ?int $userId = null,string $date = null,int $id = null, string $author = null)
     {
         $this->id = $id;
         $this->author = $author;
         $this->date = $date;
-        $this->title = $title;
-        $this->caption = $caption;
         $this->content = $content;
         $this->user_id = $userId;
     }
@@ -50,16 +46,6 @@ class Post
     public function getDate() : ?string
     {
         return $this->date;
-    }
-
-    public function getTitle() : ?string
-    {
-        return $this->title;
-    }
-
-    public function getCaption() : ?string
-    {
-        return $this->caption;
     }
 
     public function getContent() : ?string
