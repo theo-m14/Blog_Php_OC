@@ -12,3 +12,15 @@
     <p>Posté le {{comment.date|date("d/m/y")}}</p>
     <p>-----------------</p>
 {% endfor %}
+
+{% if user %}
+
+<form action="/post/comment/add" method="post">
+
+<textarea name="content" cols="30" rows="10" placeholder="Votre Commentaire"></textarea>
+<input type="hidden" name="postId" value="{{post.id}}">
+<button type="submit">Envoyer</button>
+
+</form>
+
+{% endif %}

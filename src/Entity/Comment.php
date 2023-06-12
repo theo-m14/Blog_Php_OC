@@ -11,14 +11,16 @@ class Comment
     private ?string $content;
     private ?string $date;
     private ?int $user_id;
+    private ?int $post_id;
 
-    public function __construct(string $content = null, ?int $userId = null,string $date = null,int $id = null, string $author = null)
+    public function __construct(string $content = null, ?int $userId = null,string $date = null,?int $postId = null, int $id = null, string $author = null)
     {
         $this->id = $id;
         $this->author = $author;
         $this->date = $date;
         $this->content = $content;
         $this->user_id = $userId;
+        $this->post_id = $postId;
     }
 
     public function generalGetter(string $paramName) : mixed

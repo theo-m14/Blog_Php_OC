@@ -41,4 +41,12 @@ class PostRepository extends BaseRepository
         return $userRepository->getByField('id', $id)->getUsername();
     }
 
+    public function postExistById(int $id) : bool
+    {
+        $sql = "SELECT COUNT(*) FROM post WHERE id = ? ";
+        $req = $this->bdd->prepare($sql);
+        $req->execute(array($id));
+        $result = $req->fetch();
+        return $result[0] > 0;
+    }
 }
