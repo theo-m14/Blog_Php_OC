@@ -12,20 +12,25 @@ class CommentController extends BaseController
 {
     public function add(PostRepository $postRepository, CommentRepository $commentRepository, string $content, int $postId) : void
     {
-        if(!$postRepository->postExistById($postId) || !$this->getUser()){
-            $this->redirectTo('/blog',400);
+        if(!$postRepository->postExistById($postId)){
+            $this->redirectTo('/blog',303,"Le commentaire ne peux être ajouté sur un post inexistant");
+            return;
+        }
+
+        if(!$this->getUser()){
+            $this->redirectTo('/blog',303,"Vous devez être connecté pour ajouter un commentaire");
             return;
         }
 
         if(strlen($content) < 2 ){
-            $this->redirectTo('/blog',400);
+            $this->redirectTo('/post/' . $postId,303,"Votre commentaire doit faire plus de deux caratères");
             return;
         }
 
         $comment = new Comment($content, $this->getUser()["id"], date("Y-m-d H:i:s"),$postId);
         $param = ["content","user_id","date","post_id"];
         $commentRepository->insert($comment, $param);
-        $this->redirectTo('/post/' . $postId,302);
+        $this->redirectTo('/post/' . $postId,303);
     }
 
 }

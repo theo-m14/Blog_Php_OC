@@ -15,11 +15,17 @@ use App\Exception\ViewNotFoundException;
         private HttpRequest $httpRequest;
         private array|null $user;
         private Environment $twig;
+        private ?string $error;
 
         public function __construct(HttpRequest $httpRequest)
         {
             $this->httpRequest = $httpRequest;
             $this->user = array_key_exists('user', $_SESSION) ? $_SESSION['user'] : null;
+            $this->error = null;
+            if(array_key_exists('error', $_SESSION)){
+                $this->error = $_SESSION['error'];
+                unset($_SESSION['error']);
+            }
             $this->setTwig();
         }
 
@@ -31,6 +37,11 @@ use App\Exception\ViewNotFoundException;
                 'debug' => true
             ]);
             $this->twig->addExtension(new \Twig\Extension\DebugExtension());
+        }
+
+        public function getError() : ?string
+        {
+            return $this->error;
         }
 
         public function setUser() : void
@@ -52,6 +63,7 @@ use App\Exception\ViewNotFoundException;
         {
             $data['user'] = $this->getUser();
             $data['appEnv'] = $_ENV['APP_ENV'];
+            $data['error'] = $this->getError();
             $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);
         }
 
@@ -66,11 +78,12 @@ use App\Exception\ViewNotFoundException;
             return false;
         }
 
-        public function redirectTo(string $route,int $httpCode) : void
+        public function redirectTo(string $route,int $httpCode,?string $error = null) : void
         {
             if($httpCode === 404){
                 header('Location: /error');
             }else{
+                $_SESSION['error'] = $error;
                 header('Location: ' . $route,true,$httpCode);
             }
         }

@@ -1,3 +1,8 @@
+
+{% if error %}
+     <p>{{error}}</p>
+{% endif %}
+
 <h1>{{post.title|escape}}</h1>
 <p><strong>{{post.caption|escape}}</strong></p>
 <p>{{post.content|escape}}</p>
