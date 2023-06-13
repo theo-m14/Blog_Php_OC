@@ -23,7 +23,7 @@ Commentaires :
     <div>
         <p>-----------------</p>
         <p>Utilisateur : {{comment.author}}</p>
-        <p class='commentContent'>{{comment.content}}</p>
+        <p class='commentContent'>{{comment.content|trim}}</p>
         <p>Posté le {{comment.date|date("d/m/y")}}</p>
         <input type="hidden" class='commentId' value={{comment.id}}>
         {% if user and user.id == comment.userId %}
