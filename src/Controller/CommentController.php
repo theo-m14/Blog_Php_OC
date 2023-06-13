@@ -62,4 +62,24 @@ class CommentController extends BaseController
 
     }
 
+    public function delete(CommentRepository $commentRepository, string $csrfToken, int $commentId) : void
+    {
+        $comment = $commentRepository->getByField('id',$commentId);
+
+        if(empty($comment)){
+            $this->redirectTo('/blog',303,"Vous devez être connecté pour ajouter un commentaire");
+            return;
+        }
+
+        $postId = $comment->getPostId();
+
+        if(!$this->getUser() || !$this->isGranted($comment) || $this->getUser()['csrfToken'] != $csrfToken){
+            $this->redirectTo('/post/' . $postId,303,"Vous devez être propriétaire d'un commentaire pour le modifier");
+            return;
+        }
+
+        $commentRepository->delete($comment);
+        $this->redirectTo('/post/' . $postId,302);
+    }
+
 }

@@ -110,5 +110,12 @@
         "action" : "update",
         "method" : "POST",
         "param" : ["content","commentId"]
+    },
+    {
+        "path" : "/post/comment/delete",
+        "controller" : "Comment",
+        "action" : "delete",
+        "method" : "POST",
+        "param" : ["csrfToken","commentId"]
     }
 ]

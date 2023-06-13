@@ -28,7 +28,11 @@ Commentaires :
         <input type="hidden" class='commentId' value={{comment.id}}>
         {% if user and user.id == comment.userId %}
             <a href="" class='updateCommentBtn'>Modifier</a>
-
+            <form action="/post/comment/delete" method="POST">
+                <input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
+                <input type="hidden" name="commentId" value="{{comment.id}}">
+                <button type="submit">Supprimer</button>
+            </form>
         {% endif %}
     </div>
 {% endfor %}

@@ -77,8 +77,8 @@ class BaseRepository
     {
         if(property_exists($obj,"id"))
 			{
-				$req = $this->bdd->prepare("DELETE FROM ? WHERE id=?");
-				return $req->execute(array($this->table,$obj->id));
+				$req = $this->bdd->prepare("DELETE FROM " . $this->table .  " WHERE id= ? ");
+				return $req->execute(array($obj->generalGetter('id')));
 			}
 			else
 			{
