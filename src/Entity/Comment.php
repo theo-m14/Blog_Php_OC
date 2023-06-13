@@ -65,4 +65,9 @@ class Comment
     {
         return $this->author;
     }
+
+    public function getPostId() : ?int
+    {
+        return $this->post_id;
+    }
 }

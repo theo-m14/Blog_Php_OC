@@ -53,6 +53,8 @@ class Route{
 
                     if(!$this->validArguments($httpRequest,$parameters))
                     {
+                        var_dump($parameters);
+                        var_dump($httpRequest);
                         throw new WrongArgumentsTypeException;
                     }
 

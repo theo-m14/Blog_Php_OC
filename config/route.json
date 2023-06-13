@@ -103,5 +103,12 @@
         "action" : "add",
         "method" : "POST",
         "param" : ["content","postId"]
+    },
+    {
+        "path" : "/post/comment/update",
+        "controller" : "Comment",
+        "action" : "update",
+        "method" : "POST",
+        "param" : ["content","commentId"]
     }
 ]

@@ -87,10 +87,11 @@ class PostController extends BaseController
             $this->render("add.html.twig", ["error" => $error, "post" => $post]);
             return;
         }
-        $postId = intval($postId);
-        $post = new Post($title, $caption, $content, $this->getUser()['id'], date("Y-m-d H:i:s"), $postId);
-        $params = ['title','caption','content','date','user_id'];
+
+        $authorId = $post->getUserId();
+        $post = new Post($title, $caption, $content, $authorId, date("Y-m-d H:i:s"),intval($postId));
+        $params = ['title','caption','content','date'];
         $postRepository->update($post, $params);
-        $this->redirectTo('/blog',302);
+        $this->redirectTo('/post/' . $postId ,302);
     }
 }

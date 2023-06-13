@@ -33,4 +33,33 @@ class CommentController extends BaseController
         $this->redirectTo('/post/' . $postId,303);
     }
 
+    public function update(CommentRepository $commentRepository, string $content,int $commentId) : void
+    {
+        $comment = $commentRepository->getByField('id',$commentId);
+
+        if(empty($comment)){
+            $this->redirectTo('/blog',303,"Vous devez être connecté pour ajouter un commentaire");
+            return;
+        }
+
+        $postId = $comment->getPostId();
+
+        if(!$this->getUser() || !$this->isGranted($comment)){
+            $this->redirectTo('/post/' . $postId,303,"Vous devez être propriétaire d'un commentaire pour le modifier");
+            return;
+        }
+
+        if(strlen($content) < 2 ){
+            $this->redirectTo('/post/' . $postId,303,"Votre commentaire doit faire plus de deux caratères");
+            return;
+        }
+
+        $authorId = $comment->getUserId();
+        $comment = new Comment($content, $authorId, date("Y-m-d H:i:s"), $postId,intval($commentId));
+        $params = ['content','date'];
+        $commentRepository->update($comment, $params);
+        $this->redirectTo('/post/' . $postId,302);
+
+    }
+
 }

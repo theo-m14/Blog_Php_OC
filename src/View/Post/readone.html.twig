@@ -1,7 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{post.title}}</title>
+</head>
+<body>
 
-{% if error %}
-     <p>{{error}}</p>
-{% endif %}
+    {% if error %}
+        <p>{{error}}</p>
+    {% endif %}
 
 <h1>{{post.title|escape}}</h1>
 <p><strong>{{post.caption|escape}}</strong></p>
@@ -9,23 +17,34 @@
 <p>Auteur : {{post.author|escape}}</p>
 <p>Date de modification : {{post.date|date("d/m/y")}}</p>
 
+Commentaires :
 
 {% for comment in comments %}
-    <p>-----------------</p>
-    <p>Utilisateur : {{comment.author}}</p>
-    <p>{{comment.content}}</p>
-    <p>Posté le {{comment.date|date("d/m/y")}}</p>
-    <p>-----------------</p>
+    <div>
+        <p>-----------------</p>
+        <p>Utilisateur : {{comment.author}}</p>
+        <p class='commentContent'>{{comment.content}}</p>
+        <p>Posté le {{comment.date|date("d/m/y")}}</p>
+        <input type="hidden" class='commentId' value={{comment.id}}>
+        {% if user and user.id == comment.userId %}
+            <a href="" class='updateCommentBtn'>Modifier</a>
+
+        {% endif %}
+    </div>
 {% endfor %}
 
 {% if user %}
 
-<form action="/post/comment/add" method="post">
+    <form action="/post/comment/add" method="post">
 
-<textarea name="content" cols="30" rows="10" placeholder="Votre Commentaire"></textarea>
-<input type="hidden" name="postId" value="{{post.id}}">
-<button type="submit">Envoyer</button>
+    <textarea name="content" cols="30" rows="10" placeholder="Votre Commentaire"></textarea>
+    <input type="hidden" name="postId" value="{{post.id}}">
+    <button type="submit">Envoyer</button>
 
 </form>
 
 {% endif %}
+
+<script src="/js/updateComment.js"></script>
+</body>
+</html>
