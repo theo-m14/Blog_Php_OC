@@ -10,6 +10,11 @@
     <a href="/post/{{post.id}}">Voir</a>
     {% if user.id == post.userid %}
     <a href="/post/update/{{post.id}}">Modifier</a>
+    <form action="/post/delete" method="POST">
+                <input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
+                <input type="hidden" name="postId" value="{{post.id}}">
+                <button type="submit">Supprimer</button>
+            </form>
     {% endif %}
 
 {% endfor %}

@@ -94,4 +94,23 @@ class PostController extends BaseController
         $postRepository->update($post, $params);
         $this->redirectTo('/post/' . $postId ,302);
     }
+
+    public function delete(PostRepository $postRepository, string $csrfToken, int $postId) : void
+    {
+        $post = $postRepository->getByField('id',$postId);
+
+        if(empty($post)){
+            $this->redirectTo('/blog',303,"Vous devez être connecté pour ajouter un commentaire");
+            return;
+        }
+
+
+        if(!$this->getUser() || !$this->isGranted($post) || $this->getUser()['csrfToken'] != $csrfToken){
+            $this->redirectTo('/blog',303,"Vous devez être propriétaire d'un commentaire pour le modifier");
+            return;
+        }
+
+        $postRepository->delete($post);
+        $this->redirectTo('/blog',302);
+    }
 }
