@@ -19,6 +19,6 @@
 
 {% endfor %}
 
-{% if user and user.role == 'admin' %}
+{% if user and (user.role == 'admin' or user.role == 'super_admin')  %}
 <a href="/blog/admin">Panel Admin</a>
 {% endif %}

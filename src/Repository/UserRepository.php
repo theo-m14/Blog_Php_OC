@@ -24,6 +24,15 @@ class UserRepository extends BaseRepository
         }
     }
 
+    public function getAll() : array
+    {
+        $users = parent::getAll();
+        foreach ($users as $user) {
+            $this->retrieveRole($user);
+        }
+        return $users;
+    }
+
     public function userExistByField(string $fieldName, string $fieldValue) : bool
     {
         $sql = "SELECT COUNT(*) FROM user WHERE ". $fieldName ."=? ";
@@ -40,5 +49,12 @@ class UserRepository extends BaseRepository
         $role = $req->fetch(\PDO::FETCH_ASSOC)['name'];
         $user->setRole($role);
         return $user;
+    }
+
+    public function getRoleId(string $role) : int
+    {
+        $req = $this->bdd->prepare("SELECT id FROM role WHERE name=?");
+        $req->execute(array($role));
+        return $req->fetch(\PDO::FETCH_ASSOC)['id'];
     }
 }

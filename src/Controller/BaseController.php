@@ -83,7 +83,7 @@ use App\Exception\ViewNotFoundException;
             if (!$this->getUser()) {
                 return false;
             }
-            if ($this->getUser()['role'] == "admin") {
+            if ($this->getUser()['role'] == "admin" || $this->getUser()['role'] == "super_admin") {
                 return true;
             }
             return false;

@@ -1,0 +1,18 @@
+{% if error %}
+			<p>{{error}}</p>
+{% endif %}
+
+{% for user in users %}
+    <p>Pseudo : {{user.username}}</p>
+    <p>Email : {{user.mail}}</p>
+    <p>Role actuel: {{user.role}}</p>
+    <form action="/users/updateRole" method="POST">
+        <select name="role">
+            <option value="">Selectionner un role</option>
+            <option value="admin">admin</option>
+            <option value="basic">basic</option>
+        </select>
+        <input type="hidden" name="userId" value="{{user.id}}">
+        <button type="submit">Changer le role</button>
+    </form>
+{% endfor %}
