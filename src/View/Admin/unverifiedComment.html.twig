@@ -1,0 +1,12 @@
+<h2>Commentaire en attentes de vérification :</h2>
+
+{% for comment in comments %}
+    <div>
+        <p>Utilisateur : {{comment.author}}</p>
+        <p>{{comment.content}}</p>
+        <p>Date : {{comment.date|date('d/m/y')}}</p>
+        <p>Lien du post lié : <a href="/post/{{comment.postId}}" target='_blank'>Voir</a></p>
+        <a href="/comment/validation/{{comment.id}}">Valider le commentaire</a>
+    </div>
+
+{% endfor %}

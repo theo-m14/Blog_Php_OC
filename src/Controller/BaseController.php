@@ -78,6 +78,17 @@ use App\Exception\ViewNotFoundException;
             return false;
         }
 
+        public function isAdmin() : bool
+        {
+            if (!$this->getUser()) {
+                return false;
+            }
+            if ($this->getUser()['role'] == "admin") {
+                return true;
+            }
+            return false;
+        }
+
         public function redirectTo(string $route,int $httpCode,?string $error = null) : void
         {
             if($httpCode === 404){

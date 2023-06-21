@@ -124,5 +124,26 @@
         "action" : "delete",
         "method" : "POST",
         "param" : ["csrfToken","commentId"]
+    },
+    {
+        "path" : "/blog/admin",
+        "controller" : "Admin",
+        "action" : "panel",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/blog/comment/unverified",
+        "controller" : "Admin",
+        "action" : "getCommentUnverifed",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/comment/validation/[commentId]",
+        "controller" : "Admin",
+        "action" : "validComment",
+        "method" : "GET",
+        "param" : ["commentId"]
     }
 ]

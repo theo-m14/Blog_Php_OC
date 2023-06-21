@@ -27,7 +27,7 @@ class CommentController extends BaseController
             return;
         }
 
-        $comment = new Comment($content, $this->getUser()["id"], date("Y-m-d H:i:s"),$postId);
+        $comment = new Comment($content, $this->getUser()["id"], date("Y-m-d H:i:s"),false,$postId);
         $param = ["content","user_id","date","post_id"];
         $commentRepository->insert($comment, $param);
         $this->redirectTo('/post/' . $postId,303);
@@ -55,7 +55,8 @@ class CommentController extends BaseController
         }
 
         $authorId = $comment->getUserId();
-        $comment = new Comment($content, $authorId, date("Y-m-d H:i:s"), $postId,intval($commentId));
+        $commentVerified = $comment->getVerif();
+        $comment = new Comment($content, $authorId, date("Y-m-d H:i:s"),$commentVerified,$postId,intval($commentId));
         $params = ['content','date'];
         $commentRepository->update($comment, $params);
         $this->redirectTo('/post/' . $postId,302);
@@ -81,5 +82,4 @@ class CommentController extends BaseController
         $commentRepository->delete($comment);
         $this->redirectTo('/post/' . $postId,302);
     }
-
 }
