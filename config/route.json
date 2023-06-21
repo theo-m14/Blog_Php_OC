@@ -98,6 +98,13 @@
         "param" : ["title","caption","content","post_id"]
     },
     {
+        "path" : "/post/delete",
+        "controller" : "Post",
+        "action" : "delete",
+        "method" : "POST",
+        "param" : ["csrfToken","postId"]
+    },
+    {
         "path" : "/post/comment/add",
         "controller" : "Comment",
         "action" : "add",
