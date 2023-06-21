@@ -96,5 +96,26 @@
         "action" : "update",
         "method" : "POST",
         "param" : ["title","caption","content","post_id"]
+    },
+    {
+        "path" : "/post/comment/add",
+        "controller" : "Comment",
+        "action" : "add",
+        "method" : "POST",
+        "param" : ["content","postId"]
+    },
+    {
+        "path" : "/post/comment/update",
+        "controller" : "Comment",
+        "action" : "update",
+        "method" : "POST",
+        "param" : ["content","commentId"]
+    },
+    {
+        "path" : "/post/comment/delete",
+        "controller" : "Comment",
+        "action" : "delete",
+        "method" : "POST",
+        "param" : ["csrfToken","commentId"]
     }
 ]

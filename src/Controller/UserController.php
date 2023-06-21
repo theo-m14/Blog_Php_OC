@@ -26,6 +26,7 @@ class UserController extends BaseController
             $_SESSION['user']['username'] = $user->getUsername();
             $_SESSION['user']['role'] = $user->getRole();
             $_SESSION['user']['id'] = $user->getId();
+            $_SESSION['user']['csrfToken'] = bin2hex(random_bytes(32));
             $this->setUser();
             $this->redirectTo('/',302);
         }else {

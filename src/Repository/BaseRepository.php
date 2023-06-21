@@ -39,6 +39,15 @@ class BaseRepository
 		return $req->fetch();
     }
 
+    public function getAllByField(string $fieldName, mixed $fieldValue) : array
+    {
+        $sql = "SELECT * FROM " . $this->table . " WHERE ". $fieldName . "=?";
+        $req = $this->bdd->prepare($sql);
+		$req->execute(array($fieldValue));
+		$req->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE,$this->object);
+		return $req->fetchAll();
+    }
+
     public function insert(mixed $object, array $param) : void
     {
         //Count number of parameter
@@ -68,8 +77,8 @@ class BaseRepository
     {
         if(property_exists($obj,"id"))
 			{
-				$req = $this->bdd->prepare("DELETE FROM ? WHERE id=?");
-				return $req->execute(array($this->table,$obj->id));
+				$req = $this->bdd->prepare("DELETE FROM " . $this->table .  " WHERE id= ? ");
+				return $req->execute(array($obj->generalGetter('id')));
 			}
 			else
 			{
