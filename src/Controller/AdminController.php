@@ -13,9 +13,11 @@ class AdminController extends BaseController
     {
         if(!$this->isAdmin())
         {
-            $this->redirectTo('/blog', 303);
+           $this->redirectNonAdmin();
             return;
         }
+
+
 
         $this->render('panel.html.twig');
     }
@@ -24,7 +26,7 @@ class AdminController extends BaseController
     {
         if(!$this->isAdmin())
         {
-            $this->redirectTo('/blog', 303);
+           $this->redirectNonAdmin();
             return;
         }
 
@@ -37,7 +39,7 @@ class AdminController extends BaseController
     {
         if(!$this->isAdmin())
         {
-            $this->redirectTo('/blog', 303);
+           $this->redirectNonAdmin();
             return;
         }
 
@@ -53,7 +55,7 @@ class AdminController extends BaseController
     {
         if(!$this->isAdmin())
         {
-            $this->redirectTo('/blog', 303);
+           $this->redirectNonAdmin();
             return;
         }
 
@@ -66,7 +68,7 @@ class AdminController extends BaseController
     {
         if(!$this->isAdmin())
         {
-            $this->redirectTo('/blog', 303);
+           $this->redirectNonAdmin();
             return;
         }
 
@@ -100,5 +102,10 @@ class AdminController extends BaseController
         $params = ['role_id'];
         $userRepository->update($user,$params);
         $this->redirectTo('/users',302);
+    }
+
+    public function redirectNonAdmin() : void
+    {
+        $this->redirectTo('/blog', 303);
     }
 }
