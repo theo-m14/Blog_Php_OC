@@ -159,5 +159,12 @@
         "action" : "updateRole",
         "method" : "POST",
         "param" : ["role","userId"]
+    },
+    {
+        "path" : "/sendEmail",
+        "controller" : "Home",
+        "action" : "sendEmail",
+        "method" : "POST",
+        "param" : ["name","email","textContent"]
     }
 ]
