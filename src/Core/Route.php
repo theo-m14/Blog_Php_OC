@@ -148,7 +148,6 @@ class Route{
     public function autoBindArguments(array $parameters, HttpRequest $httpRequest, int $requiredParametersNumber) : void
     {
         $tempParams = $httpRequest->getParam();
-        var_dump($tempParams);
         $httpRequest->clearParam();
         foreach ($parameters as $parameter) {
             if (!in_array($parameter->getName(), $httpRequest->getParam())) {
