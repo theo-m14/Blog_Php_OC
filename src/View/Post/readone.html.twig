@@ -1,54 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{post.title}}</title>
-</head>
-<body>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>{{post.title}}</title>
+	</head>
+	<body>
 
-    {% if error %}
-        <p>{{error}}</p>
-    {% endif %}
+		{% if error %}
+			<p>{{error}}</p>
+		{% endif %}
 
-<h1>{{post.title|escape}}</h1>
-<p><strong>{{post.caption|escape}}</strong></p>
-<p>{{post.content|escape}}</p>
-<p>Auteur : {{post.author|escape}}</p>
-<p>Date de modification : {{post.date|date("d/m/y")}}</p>
+		<h1>{{post.title|escape}}</h1>
+		<p>
+			<strong>{{post.caption|escape}}</strong>
+		</p>
+		<p>{{post.content|escape}}</p>
+		<p>Auteur :
+			{{post.author|escape}}</p>
+		<p>Date de modification :
+			{{post.date|date("d/m/y")}}</p>
 
-Commentaires :
+		Commentaires :
 
-{% for comment in comments %}
-    <div>
-        <p>-----------------</p>
-        <p>Utilisateur : {{comment.author}}</p>
-        <p class='commentContent'>{{comment.content|trim}}</p>
-        <p>Posté le {{comment.date|date("d/m/y")}}</p>
-        <input type="hidden" class='commentId' value={{comment.id}}>
-        {% if user and user.id == comment.userId %}
-            <a href="" class='updateCommentBtn'>Modifier</a>
-            <form action="/post/comment/delete" method="POST">
-                <input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
-                <input type="hidden" name="commentId" value="{{comment.id}}">
-                <button type="submit">Supprimer</button>
-            </form>
-        {% endif %}
-    </div>
-{% endfor %}
+		{% for comment in comments %}
 
-{% if user %}
+			{% if comment.verif %}
+				<div>
+					<p>-----------------</p>
+					<p>Utilisateur :
+						{{comment.author}}</p>
+					<p class='commentContent'>{{comment.content|trim}}</p>
+					<p>Posté le
+						{{comment.date|date("d/m/y")}}</p>
+					<input type="hidden" class='commentId' value={{comment.id}}>
+					{% if user and user.id == comment.userId %}
+						<a href="" class='updateCommentBtn'>Modifier</a>
+						<form action="/post/comment/delete" method="POST">
+							<input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
+							<input type="hidden" name="commentId" value="{{comment.id}}">
+							<button type="submit">Supprimer</button>
+						</form>
+					{% endif %}
+				</div>
+			{% endif %}
 
-    <form action="/post/comment/add" method="post">
+		{% endfor %}
 
-    <textarea name="content" cols="30" rows="10" placeholder="Votre Commentaire"></textarea>
-    <input type="hidden" name="postId" value="{{post.id}}">
-    <button type="submit">Envoyer</button>
+		{% if user %}
 
-    </form>
+			<form action="/post/comment/add" method="post">
 
-{% endif %}
+				<textarea name="content" cols="30" rows="10" placeholder="Votre Commentaire"></textarea>
+				<input type="hidden" name="postId" value="{{post.id}}">
+				<button type="submit">Envoyer</button>
 
-<script src="/js/updateComment.js"></script>
-</body>
+			</form>
+
+		{% endif %}
+
+		<script src="/js/updateComment.js"></script>
+	</body>
 </html>

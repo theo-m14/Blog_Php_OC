@@ -47,5 +47,4 @@ class CommentRepository extends BaseRepository
         $userRepository = new UserRepository();
         return $userRepository->getByField('id', $id)->getUsername();
     }
-
 }

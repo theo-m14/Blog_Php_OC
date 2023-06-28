@@ -6,3 +6,19 @@
 {% else %}
     <a class="btn btn-primary" href="/login">Connexion</a>
 {% endif %}
+
+{% if contactError %}
+<p>{{contactError}}</p>
+{% endif %}
+{% if success %}
+<p>{{success}}</p>
+{% endif %}
+
+<form action="/sendEmail" method="POST">
+<label for="name">Votre Nom</label>
+<input type="text" name="name" id="">
+<label for="mail">Email de contact</label>
+<input type="text" name="email" id="">
+<textarea name="textContent" id="" cols="30" rows="10" placeholder="Votre Message"></textarea>
+<button type="submit">Envoyer</button>
+</form>

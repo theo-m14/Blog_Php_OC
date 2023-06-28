@@ -124,5 +124,47 @@
         "action" : "delete",
         "method" : "POST",
         "param" : ["csrfToken","commentId"]
+    },
+    {
+        "path" : "/blog/admin",
+        "controller" : "Admin",
+        "action" : "panel",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/blog/comment/unverified",
+        "controller" : "Admin",
+        "action" : "getCommentUnverifed",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/comment/validation/[commentId]",
+        "controller" : "Admin",
+        "action" : "validComment",
+        "method" : "GET",
+        "param" : ["commentId"]
+    },
+    {
+        "path" : "/users",
+        "controller" : "Admin",
+        "action" : "getUsers",
+        "method" : "GET",
+        "param" : []
+    },
+    {
+        "path" : "/users/updateRole",
+        "controller" : "Admin",
+        "action" : "updateRole",
+        "method" : "POST",
+        "param" : ["role","userId"]
+    },
+    {
+        "path" : "/sendEmail",
+        "controller" : "Home",
+        "action" : "sendEmail",
+        "method" : "POST",
+        "param" : ["name","email","textContent"]
     }
 ]

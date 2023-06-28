@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Controller\BaseController;
+use App\Repository\CommentRepository;
 use App\Repository\UserRepository;
 
 class UserController extends BaseController

@@ -10,14 +10,16 @@ class Comment
     private ?string $author;
     private ?string $content;
     private ?string $date;
+    private ?bool $verified;
     private ?int $user_id;
     private ?int $post_id;
 
-    public function __construct(string $content = null, ?int $userId = null,string $date = null,?int $postId = null, int $id = null, string $author = null)
+    public function __construct(string $content = null, ?int $userId = null,string $date = null,bool $verified= null,?int $postId = null, int $id = null, string $author = null)
     {
         $this->id = $id;
         $this->author = $author;
         $this->date = $date;
+        $this->verified = $verified;
         $this->content = $content;
         $this->user_id = $userId;
         $this->post_id = $postId;
@@ -69,5 +71,15 @@ class Comment
     public function getPostId() : ?int
     {
         return $this->post_id;
+    }
+
+    public function getVerif() : ?bool
+    {
+        return $this->verified;
+    }
+
+    public function setVerif(?bool $valid) : void
+    {
+        $this->verified = $valid;
     }
 }
