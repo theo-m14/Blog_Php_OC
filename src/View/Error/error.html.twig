@@ -1,14 +1,41 @@
-{% if appEnv == 'prod' %}
-    <h2>Page 404</h2>
-    <p>Une erreur s'est produite la page demandé n'est pas disponible</p>
-    <a href="/">Retour à l'accueil</a>
-{% else %}
-    <div class="error">
-    <h1>Une erreur s'est produite</h1>
-    <div class="error-message">Message : {{ exception.getMessage()}} </div>
-    <div class="error-stack">Pile d'exécution : {{ exception.getTraceAsString() }}</div>
-    {% if exception.getMoreDetail() %}
-    <div class="error-detail">{{ exception.getMoreDetail() }}</div>
-    {% endif %}
+{% extends "base.html.twig" %}
+{% block title %}Connexion
+{% endblock %}
+{% block body %}
+
+<header class="masthead" style="background-image: url('media/404.jpg')">
+	<div class="container position-relative px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<div class="page-heading">
+					<h2>PAGE 404</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+<div class="container px-4 px-lg-5">
+	<div class="row gx-4 gx-lg-5 justify-content-center">
+		<div class="col-md-10 col-lg-8 col-xl-7">
+			{% if appEnv == 'prod' %}
+				<p>Une erreur s'est produite la page demandé n'est pas disponible</p>
+			{% else %}
+				<div class="error">
+					<h3>Une erreur s'est produite</h3>
+					<div class="error-message">Message :
+						{{ exception.getMessage()}}
+					</div>
+					<div class="error-stack">Pile d'exécution :
+						{{ exception.getTraceAsString() }}</div>
+					{% if exception.getMoreDetail() %}
+						<div class="error-detail">{{ exception.getMoreDetail() }}</div>
+					{% endif %}
+				</div>
+			{% endif %}
+            <div class="d-flex justify-content-center mb-4 pt-4"><a class="btn btn-primary text-uppercase" href="/">Retour à l'accueil</a></div>
+		</div>
+	</div>
 </div>
-{% endif %}
+
+{% endblock %}

@@ -1,64 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>{{post.title}}</title>
-	</head>
-	<body>
+{% extends "base.html.twig" %}
+{% block title %}
+	{{post.title|escape}}
+{% endblock %}
+{% block body %}
 
-		{% if error %}
-			<p>{{error}}</p>
-		{% endif %}
+	<header class="masthead" style="background-image: url('/media/readonePost.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="post-heading">
+						<h1>{{post.title|escape}}</h1>
+						<h2 class="subheading">{{post.caption|escape}}</h2>
+						<span class="meta">
+							Posté/Modifié par
+							<a href="#!">{{post.author|escape}}</a>
+							le
+							{{post.date|date("d/m/y")}}
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 
-		<h1>{{post.title|escape}}</h1>
-		<p>
-			<strong>{{post.caption|escape}}</strong>
-		</p>
-		<p>{{post.content|escape}}</p>
-		<p>Auteur :
-			{{post.author|escape}}</p>
-		<p>Date de modification :
-			{{post.date|date("d/m/y")}}</p>
+	{% if error %}
+		<p>{{error}}</p>
+	{% endif %}
+	<!-- Post Content-->
+	<article class="mb-4">
+		<div class="container px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<p>{{post.content|escape}}</p>
+				</div>
+			</div>
+		</div>
 
-		Commentaires :
+		<div class="container px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<h3>Commentaires :</h3>
 
-		{% for comment in comments %}
+					{% for comment in comments %}
 
-			{% if comment.verif %}
-				<div>
-					<p>-----------------</p>
-					<p>Utilisateur :
-						{{comment.author}}</p>
-					<p class='commentContent'>{{comment.content|trim}}</p>
-					<p>Posté le
-						{{comment.date|date("d/m/y")}}</p>
-					<input type="hidden" class='commentId' value={{comment.id}}>
-					{% if user and user.id == comment.userId %}
-						<a href="" class='updateCommentBtn'>Modifier</a>
-						<form action="/post/comment/delete" method="POST">
-							<input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
-							<input type="hidden" name="commentId" value="{{comment.id}}">
-							<button type="submit">Supprimer</button>
+						{% if comment.verif %}
+							<div>
+								<p>Utilisateur :
+									{{comment.author}}</p>
+								<p class='commentContent'>{{comment.content|trim}}</p>
+								<p>Posté le
+									{{comment.date|date("d/m/y")}}</p>
+								<input type="hidden" class='commentId' value={{comment.id}}>
+								{% if user and user.id == comment.userId %}
+									<a href="" class='updateCommentBtn'>Modifier</a>
+									<form action="/post/comment/delete" method="POST">
+										<input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
+										<input type="hidden" name="commentId" value="{{comment.id}}">
+										<button type="submit">Supprimer</button>
+									</form>
+								{% endif %}
+							</div>
+							<hr class="my-4"/>
+						{% endif %}
+
+					{% endfor %}
+
+					{% if user %}
+						<p>Poster votre commentaire ici :</p>
+						<hr class="my-4"/>
+						<form id="contactForm" action="/post/comment/add" method="POST">
+							<div class="form-floating">
+								<textarea class="form-control" name="content" id="message" placeholder="Entrer votre commentaire" style="height: 12rem"></textarea>
+								<label for="message">Votre commentaire</label>
+							</div>
+							<input type="hidden" name="postId" value="{{post.id}}">
+							<br/>
+							<!-- Submit Button-->
+							<button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Soumettre à validation</button>
 						</form>
+
 					{% endif %}
 				</div>
-			{% endif %}
+			</div>
+		</div>
 
-		{% endfor %}
 
-		{% if user %}
-
-			<form action="/post/comment/add" method="post">
-
-				<textarea name="content" cols="30" rows="10" placeholder="Votre Commentaire"></textarea>
-				<input type="hidden" name="postId" value="{{post.id}}">
-				<button type="submit">Envoyer</button>
-
-			</form>
-
-		{% endif %}
-
-		<script src="/js/updateComment.js"></script>
-	</body>
-</html>
+	</article>
+	<script src="/js/updateComment.js"></script>
+{% endblock %}
