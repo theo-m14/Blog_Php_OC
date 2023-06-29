@@ -1,12 +1,42 @@
-<h2>Commentaire en attentes de vérification :</h2>
+{% extends "base.html.twig" %}
+{% block title %}Admin Panel
+{% endblock %}
+{% block body %}
 
-{% for comment in comments %}
-    <div>
-        <p>Utilisateur : {{comment.author}}</p>
-        <p>{{comment.content}}</p>
-        <p>Date : {{comment.date|date('d/m/y')}}</p>
-        <p>Lien du post lié : <a href="/post/{{comment.postId}}" target='_blank'>Voir</a></p>
-        <a href="/comment/validation/{{comment.id}}">Valider le commentaire</a>
-    </div>
+	<header class="masthead" style="background-image: url('/media/admin.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="page-heading">
+						<h1>Commentaires</h1>
+						<span>en attentes de validation</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 
-{% endfor %}
+	<div class="px-4 px-lg-5 h-50">
+		<div class="row gx-4 gx-lg-5 justify-content-center ">
+			<div class="col-md-10 col-lg-8 col-xl-7 ">
+                {% if comment is empty %}{% endif %}
+                    <p class="text-center">Pas de commentaires en attentes de validation</p>
+				{% for comment in comments %}
+					<div>
+						<p>Utilisateur :
+							{{comment.author}}</p>
+						<p>{{comment.content}}</p>
+						<p>Date :
+							{{comment.date|date('d/m/y')}}</p>
+						<p>Lien du post lié :
+							<a href="/post/{{comment.postId}}" target='_blank'>Voir</a>
+						</p>
+						<a href="/comment/validation/{{comment.id}}">Valider le commentaire</a>
+					</div>
+
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

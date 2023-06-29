@@ -1,4 +1,27 @@
-<h2>Bienvenue sur votre panel Admin</h2>
+{% extends "base.html.twig" %}
+{% block title %}Admin Panel
+{% endblock %}
+{% block body %}
 
-<a href="/blog/comment/unverified">Listes des commentaires en attentes de validation</a>
-<a href="/users">Listes des utilisateurs</a>
+	<header class="masthead" style="background-image: url('/media/admin.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="page-heading">
+						<h1>Administration</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+<div class="px-4 px-lg-5 h-50">
+	<div class="row gx-4 gx-lg-5 justify-content-center ">
+		<div class="col-md-10 col-lg-8 col-xl-7 ">
+            <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="/blog/comment/unverified">Listes des commentaires en attentes de validation</a></div>
+            <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="/users">Listes des utilisateurs</a></div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}
