@@ -10799,3 +10799,11 @@ header.masthead .post-heading .meta a {
     font-size: 2.25rem;
   }
 }
+
+.form-control-custom{
+  font-size: 1em !important;
+}
+
+.page-heading{
+  word-wrap: break-word;
+}

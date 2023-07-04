@@ -46,9 +46,11 @@
 
 	<div class="container px-4 px-lg-5">
 		<div class="row gx-4 gx-lg-5 justify-content-center">
-        {% if user %}
-            <div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase" href="/blog/add">Ajouter un nouveau sujet</a></div>
-        {% endif %}
+			{% if user %}
+				<div class="d-flex justify-content-center mb-4">
+					<a class="btn btn-primary text-uppercase" href="/blog/add">Ajouter un nouveau sujet</a>
+				</div>
+			{% endif %}
 
 			<div class="col-md-10 col-lg-8 col-xl-7">
 				{% for post in posts %}
@@ -65,6 +67,20 @@
 							{{post.date|date("d/m/y")}}
 						</p>
 					</div>
+
+					{% if user.id == post.userid %}
+						<div class="d-flex justify-content-around flex-sm-row gap-4 flex-column align-items-center">
+							<a href="/post/update/{{post.id}}" class='updateCommentBtn btn btn-primary text-uppercase'>Modifier</a>
+							<form action="/post/delete" method="POST">
+								<input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
+								<input type="hidden" name="postId" value="{{post.id}}">
+								<button type="submit" class="btn btn-danger text-uppercase">Supprimer</button>
+							</form>
+						</div>
+
+					{% endif %}
+
+
 					<!-- Divider-->
 					<hr class="my-4"/>
 

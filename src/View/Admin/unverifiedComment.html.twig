@@ -19,20 +19,25 @@
 	<div class="px-4 px-lg-5 h-50">
 		<div class="row gx-4 gx-lg-5 justify-content-center ">
 			<div class="col-md-10 col-lg-8 col-xl-7 ">
-                {% if comment is empty %}{% endif %}
-                    <p class="text-center">Pas de commentaires en attentes de validation</p>
+				{% if comments is empty %}
+				<p class="text-center">Pas de commentaires en attentes de validation</p>
+				{% endif %}
 				{% for comment in comments %}
-					<div>
-						<p>Utilisateur :
-							{{comment.author}}</p>
-						<p>{{comment.content}}</p>
-						<p>Date :
-							{{comment.date|date('d/m/y')}}</p>
-						<p>Lien du post lié :
-							<a href="/post/{{comment.postId}}" target='_blank'>Voir</a>
+					<div class="post-preview">
+						<h4 class="post-subtitle commentContent">{{comment.content|escape}}</h4>
+						<p class="post-meta">
+							Posté par
+							<a href="#!">{{comment.author|escape}}</a>
+							le
+							{{comment.date|date("d/m/y")}}
 						</p>
-						<a href="/comment/validation/{{comment.id}}">Valider le commentaire</a>
+							<div class="d-flex justify-content-around flex-sm-row gap-4 flex-column">
+								<a href="/post/{{comment.postId}}" class='btn btn-primary text-uppercase' target='_blank'>Page du post</a>
+								<a href="/comment/validation/{{comment.id}}" class='btn btn-success text-uppercase'>Valider</a>
+							</div>
 					</div>
+					<!-- Divider-->
+					<hr class="my-4"/>
 
 				{% endfor %}
 			</div>
