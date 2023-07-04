@@ -42,34 +42,11 @@ class UserController extends BaseController
 
     public function createUser(UserRepository $userRepository,string $username,string $mail,string $password) : void
     {
-        //Verif valid email
-        $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
-        if (!preg_match($emailPattern, $mail)) {
-            $this->render("register.html.twig", ['error' => "Veuillez saisir une adresse mail valide"]);
-            return;
-        }
-        if ($userRepository->userExistByField("mail", $mail)) {
-            $this->render("register.html.twig", ['error' => "Cette adresse mail est déjà utilisé"]);
-            return;
-        }
-        //Verif exist user by username
-        if ($userRepository->userExistByField("username", $username)) {
-            $this->render("register.html.twig", ['error' => "Ce pseudonyme n'est pas disponible"]);
-            return;
-        }
+        $error = $this->verifUserRegister($userRepository,$username,$mail,$password);
 
-        if(strlen($username) < 4){
-            $this->render("register.html.twig", ['error' => "Votre pseudonyme doit faire au moins 4 caratères"]);
+        if(!empty($error)){
+            $this->render('register.html.twig',["error" => $error]);
             return;
-        }
-        //Verif valid password
-        $passwordPattern = '/^(?=.*[\d])[a-zA-Z0-9]{6,}$/';
-        if (!preg_match($passwordPattern, $password)) {
-            $this->render(
-                "register.html.twig",
-                ['error' => "Votre mot de passe doit contenir au moins 6 caractères dont un chiffre"]
-                );
-                return;
         }
 
         $hashPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -77,6 +54,34 @@ class UserController extends BaseController
         $user = new User($mail, $username, $hashPassword, 3);
         $userRepository->insert($user, $param);
         $this->redirectTo('/login',302);
+    }
+
+    public function verifUserRegister(UserRepository $userRepository,string $username,string $mail,string $password) : array
+    {
+        $error = [];
+        $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
+        if (!preg_match($emailPattern, $mail)) {
+            $error['email'] = "Veuillez saisir une adresse mail valide";
+        }
+        if ($userRepository->userExistByField("mail", $mail)) {
+            $error['email'] = "Cette adresse mail est déjà utilisé";
+        }
+        //Verif exist user by username
+        if ($userRepository->userExistByField("username", $username)) {
+            $error['username'] = "Ce pseudonyme n'est pas disponible";
+        }
+
+        if(strlen($username) < 4){
+            $error['username'] = "Votre pseudonyme doit faire au moins 4 caractères";
+        }
+
+        //Verif valid password
+        $passwordPattern = '/^(?=.*[\d])[a-zA-Z0-9]{6,}$/';
+        if (!preg_match($passwordPattern, $password)) {
+                $error['password'] = "Votre mot de passe doit contenir au moins 6 caractères dont un chiffre";
+        }
+
+        return $error;
     }
 
     public function logout() : void
