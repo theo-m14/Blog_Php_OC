@@ -23,9 +23,7 @@
 		</div>
 	</header>
 
-	{% if error %}
-		<p>{{error}}</p>
-	{% endif %}
+
 	<!-- Post Content-->
 	<article class="mb-4">
 		<div class="container px-4 px-lg-5">
@@ -59,7 +57,7 @@
 										<form action="/post/comment/delete" method="POST">
 											<input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
 											<input type="hidden" class="commentId" name="commentId" value="{{comment.id}}">
-											<button type="submit" class="btn btn-danger text-uppercase" >Supprimer</button>
+											<button type="submit" class="btn btn-danger text-uppercase">Supprimer</button>
 										</form>
 									</div>
 								{% endif %}
@@ -72,6 +70,13 @@
 
 					{% if user %}
 						<p>Poster votre commentaire ici :</p>
+
+						{% if error %}
+							<div class="alert alert-danger" role="alert">
+								<p>{{error}}</p>
+							</div>
+						{% endif %}
+
 						<hr class="my-4"/>
 						<form id="contactForm" action="/post/comment/add" method="POST">
 							<div class="form-floating">

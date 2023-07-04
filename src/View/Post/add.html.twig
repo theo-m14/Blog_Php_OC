@@ -14,7 +14,6 @@
 			</div>
 		</div>
 	</header>
-
 	<div class="container px-4 px-lg-5">
 		<div class="row gx-4 gx-lg-5 justify-content-center">
 			<div class="col-md-10 col-lg-8 col-xl-7">
@@ -25,14 +24,14 @@
 							<input class="form-control" id="title" name="title" type="text" {% if post %} value="{{post.title|escape}}" {% endif %}/>
 							<label for="title">Titre</label>
 							{% if error.title %}
-								<p>{{error.title}}</p>
+								<p class="text-center text-danger mb-3">{{error.title}}</p>
 							{% endif %}
 						</div>
 						<div class="form-floating">
 							<input class="form-control" id="caption" name="caption" type="text" {% if post %} value="{{post.caption|escape}}" {% endif %}/>
 							<label for="caption">Légende</label>
 							{% if error.caption %}
-								<p>{{error.caption}}</p>
+								<p class="text-center text-danger mb-3">{{error.caption}}</p>
 							{% endif %}
 						</div>
 						{% if post %}
@@ -46,7 +45,7 @@
 							</textarea>
 							<label for="content">Contenu</label>
 							{% if error.content %}
-								<p>{{error.content}}</p>
+								<p class="text-center text-danger mb-3">{{error.content}}</p>
 							{% endif %}
 						</div>
 						<br/>

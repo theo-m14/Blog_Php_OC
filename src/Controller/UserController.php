@@ -40,30 +40,36 @@ class UserController extends BaseController
         $this->render('register.html.twig');
     }
 
-    public function createUser(UserRepository $userRepository, string $username, string $mail, string $password) : void
+    public function createUser(UserRepository $userRepository,string $username,string $mail,string $password) : void
     {
         //Verif valid email
         $emailPattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
         if (!preg_match($emailPattern, $mail)) {
-            $this->render("login.html.twig", ['error' => "Veuillez saisir une adresse mail valide"]);
+            $this->render("register.html.twig", ['error' => "Veuillez saisir une adresse mail valide"]);
             return;
         }
         if ($userRepository->userExistByField("mail", $mail)) {
-            $this->render("login.html.twig", ['error' => "Cette adresse mail est déjà utilisé"]);
+            $this->render("register.html.twig", ['error' => "Cette adresse mail est déjà utilisé"]);
             return;
         }
         //Verif exist user by username
         if ($userRepository->userExistByField("username", $username)) {
-            $this->render("login.html.twig", ['error' => "Ce pseudonyme n'est pas disponible"]);
+            $this->render("register.html.twig", ['error' => "Ce pseudonyme n'est pas disponible"]);
+            return;
+        }
+
+        if(strlen($username) < 4){
+            $this->render("register.html.twig", ['error' => "Votre pseudonyme doit faire au moins 4 caratères"]);
             return;
         }
         //Verif valid password
         $passwordPattern = '/^(?=.*[\d])[a-zA-Z0-9]{6,}$/';
         if (!preg_match($passwordPattern, $password)) {
             $this->render(
-                "login.html.twig",
+                "register.html.twig",
                 ['error' => "Votre mot de passe doit contenir au moins 6 caractères dont un chiffre"]
                 );
+                return;
         }
 
         $hashPassword = password_hash($password, PASSWORD_DEFAULT);
