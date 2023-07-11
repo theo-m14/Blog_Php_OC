@@ -1,16 +1,54 @@
-<div>
-    <form action="register" method="post">
-        {% if error %}
-        <div >{{ error }}</div>
-        {% endif %}
-        <h2 >Enregistrement</h2>
-        <label for="username">Nom d'utilisateur</label>
-        <input type="text" id="username" name="username" />
-        <label for="mail">Email</label>
-        <input type="text" id="mail" name="mail" />
-        <label for="password">Mot de passe</label>
-        <input type="password" id="password" name="password" />
-        <input type="submit" value="S'enregistrer" />
-        {# <p class="forgot-password">Mot de passe oublié?</p> #}
-    </form>
-</div>
+{% extends "base.html.twig" %}
+{% block title %}Connexion
+{% endblock %}
+{% block body %}
+
+	<header class="masthead" style="background-image: url('media/register.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="page-heading">
+						<h2>Formulaire d'Enregistrement</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<div class="container px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<p>Inscription</p>
+				<div class="my-5">
+					<form id="contactForm" action="register" method="POST">
+						<div class="form-floating">
+							<input class="form-control" id="username" name="username" type="text" placeholder="Entrer votre nom d'utilisateur"/>
+							<label for="username">Nom d'utilisateur</label>
+							{% if error.username %}
+								<p class="text-center text-danger mb-3">{{error.username}}</p>
+							{% endif %}
+						</div>
+						<div class="form-floating">
+							<input class="form-control" id="mail" name="mail" type="text" placeholder="Entrer votre Email"/>
+							<label for="mail">Adresse Email</label>
+							{% if error.email %}
+								<p class="text-center text-danger mb-3">{{error.email}}</p>
+							{% endif %}
+						</div>
+						<div class="form-floating">
+							<input class="form-control" id="password" name="password" type="password" placeholder="Entrer votre mot de passe"/>
+							<label for="password">Mot de passe</label>
+							{% if error.password %}
+								<p class="text-center text-danger mb-3">{{error.password}}</p>
+							{% endif %}
+						</div>
+						<br/>
+						<!-- Submit Button-->
+						<button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Inscription</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

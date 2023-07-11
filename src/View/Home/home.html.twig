@@ -1,24 +1,72 @@
-<h1>Hello World</h1>
-<a href="/blog">Blog</a>
-{% if user %}
-    <p class="navbar-text">Connecté en tant que {{ user.username|escape }} ({{ user.role|escape }})</p>
-    <a class="btn btn-primary" href="/logout">Déconnexion</a>
-{% else %}
-    <a class="btn btn-primary" href="/login">Connexion</a>
-{% endif %}
+{% extends "base.html.twig" %}
+{% block title %}Page d'acceuil
+{% endblock %}
+{% block body %}
 
-{% if contactError %}
-<p>{{contactError}}</p>
-{% endif %}
-{% if success %}
-<p>{{success}}</p>
-{% endif %}
+	<header class="masthead" style="background-image: url('/media/home-bg.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="site-heading">
+						<h1>LE SUPER BLOG MVC</h1>
+						<span class="subheading">Administré par Michel Théo</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 
-<form action="/sendEmail" method="POST">
-<label for="name">Votre Nom</label>
-<input type="text" name="name" id="">
-<label for="mail">Email de contact</label>
-<input type="text" name="email" id="">
-<textarea name="textContent" id="" cols="30" rows="10" placeholder="Votre Message"></textarea>
-<button type="submit">Envoyer</button>
-</form>
+	{% if contactError %}
+		<div id="submitErrorMessage">
+			<div class="text-center text-danger mb-3">{{contactError}}</div>
+		</div>
+	{% endif %}
+	{% if success %}
+		<div id="submitSuccessMessage">
+			<div class="text-center mb-3">
+				<div class="fw-bolder">{{success}}</div>
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="container px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<h4 class="text-center">Un projet à réaliser, une idée novatrive en tête ? Je suis le développeur qu'il vous faut pour la concrétiser</h4>
+				<img src="/media/Logo.svg" alt="">
+				<div class="d-flex justify-content-center mb-4">
+					<a class="btn btn-primary text-uppercase" href="/media/cv.pdf" target='_blank'>Mon CV</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<p>Une question une demande ? N'hésitez pas à nous contacter nous vous répondrons dans les plus brefs délais !</p>
+				<div class="my-5">
+					<form id="contactForm" action="/sendEmail" method="POST">
+						<div class="form-floating">
+							<input class="form-control" id="name" name="name" type="text" placeholder="Enter your name..." data-sb-validations="required"/>
+							<label for="name">Votre nom</label>
+						</div>
+						<div class="form-floating">
+							<input class="form-control" id="email" name="email" type="email" placeholder="Enter your email..." data-sb-validations="required,email"/>
+							<label for="email">Votre Email</label>
+						</div>
+						<div class="form-floating">
+							<textarea class="form-control" name="textContent" id="message" placeholder="Enter your message here..." style="height: 12rem" data-sb-validations="required"></textarea>
+							<label for="message">Votre Message</label>
+						</div>
+						<br/>
+						<!-- Submit Button-->
+						<button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Envoyer</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}

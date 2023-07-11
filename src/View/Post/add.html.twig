@@ -1,25 +1,60 @@
-<form action={% if post %}
-                "/post/update"
-             {% else %}
-                "/blog/add"
-             {% endif %} method="POST">
-<label for="title">Titre</label>
-<input type="text" name="title" {% if post %} value="{{post.title|escape}}" {% endif %}>
-{% if error.title %}
-<p>{{error.title}}</p>
-{% endif %}
-<label for="caption">Légende</label>
-<input type="text" name="caption" {% if post %} value="{{post.caption|escape}}" {% endif %}>
-{% if error.caption %}
-<p>{{error.caption}}</p>
-{% endif %}
-<textarea name="content" cols="30" rows="10" placeholder="Votre contenu">{% if post %} {{post.content|escape}} {% endif %}</textarea>
-{% if error.content %}
-<p>{{error.content}}</p>
-{% endif %}
-{% if post %}
-<input type="hidden" name="post_id" value="{{post.id}}">
-{% endif %}
+{% extends "base.html.twig" %}
+{% block title %}Ajout d'un post
+{% endblock %}
+{% block body %}
 
-<button type="submit">Enregistrer</button>
-</form>
+	<header class="masthead" style="background-image: url('/media/addPost.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="page-heading">
+						<h2>Ajout d'un post</h2>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="container px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<p>Création d'un post</p>
+				<div class="my-5">
+					<form id="contactForm" action={% if post %} "/post/update" {% else %} "/blog/add" {% endif %} method="POST">
+						<div class="form-floating">
+							<input class="form-control" id="title" name="title" type="text" {% if post %} value="{{post.title|escape}}" {% endif %}/>
+							<label for="title">Titre</label>
+							{% if error.title %}
+								<p class="text-center text-danger mb-3">{{error.title}}</p>
+							{% endif %}
+						</div>
+						<div class="form-floating">
+							<input class="form-control" id="caption" name="caption" type="text" {% if post %} value="{{post.caption|escape}}" {% endif %}/>
+							<label for="caption">Légende</label>
+							{% if error.caption %}
+								<p class="text-center text-danger mb-3">{{error.caption}}</p>
+							{% endif %}
+						</div>
+						{% if post %}
+							<input type="hidden" name="post_id" value="{{post.id}}">
+						{% endif %}
+						<div class="form-floating">
+							<textarea class="form-control form-control-custom" name="content" id="content" style="height: 12rem">
+								{% if post %}
+									{{post.content|trim}}
+								{% endif %}
+							</textarea>
+							<label for="content">Contenu</label>
+							{% if error.content %}
+								<p class="text-center text-danger mb-3">{{error.content}}</p>
+							{% endif %}
+						</div>
+						<br/>
+						<!-- Submit Button-->
+						<button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Poster</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

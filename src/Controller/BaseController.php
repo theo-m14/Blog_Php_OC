@@ -63,7 +63,9 @@ use App\Exception\ViewNotFoundException;
         {
             $data['user'] = $this->getUser();
             $data['appEnv'] = $_ENV['APP_ENV'];
-            $data['error'] = $this->getError();
+            if(!array_key_exists('error',$data)){
+                $data['error'] = $this->getError();
+            }
             $this->twig->display($this->httpRequest->getRoute()->getController() . '/' . $filename, $data);
         }
 

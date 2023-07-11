@@ -1,24 +1,63 @@
-<h1>Bienvenue sur notre blog</h1>
-{% if user %}
-<a href="/blog/add">Ajouter un nouveau sujet</a>
-{% endif %}
-{% for post in posts %}
-    <h3>{{post.title|escape}}</h3>
-    <p><strong>{{post.caption|escape}}</strong></p>
-    <p>Auteur : {{post.author|escape}}</p>
-    <p>Date de modification : {{post.date|date("d/m/y")}}</p>
-    <a href="/post/{{post.id}}">Voir</a>
-    {% if user.id == post.userid %}
-    <a href="/post/update/{{post.id}}">Modifier</a>
-    <form action="/post/delete" method="POST">
-                <input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
-                <input type="hidden" name="postId" value="{{post.id}}">
-                <button type="submit">Supprimer</button>
-            </form>
-    {% endif %}
+{% extends "base.html.twig" %}
+{% block title %}Blog
+{% endblock %}
+{% block body %}
 
-{% endfor %}
+	<header class="masthead" style="background-image: url('media/blog.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="page-heading">
+						<h1>Blog</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
 
-{% if user and (user.role == 'admin' or user.role == 'super_admin')  %}
-<a href="/blog/admin">Panel Admin</a>
-{% endif %}
+	<div class="container px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+			{% if user %}
+				<div class="d-flex justify-content-center mb-4">
+					<a class="btn btn-primary text-uppercase" href="/blog/add">Ajouter un nouveau sujet</a>
+				</div>
+			{% endif %}
+
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				{% for post in posts %}
+					<!-- Post preview-->
+					<div class="post-preview">
+						<a href="/post/{{post.id}}">
+							<h2 class="post-title">{{post.title|escape}}</h2>
+							<h3 class="post-subtitle">{{post.caption|escape}}</h3>
+						</a>
+						<p class="post-meta">
+							Posté par
+							<a href="#!">{{post.author|escape}}</a>
+							le
+							{{post.date|date("d/m/y")}}
+						</p>
+					</div>
+
+					{% if user.id == post.userid %}
+						<div class="d-flex justify-content-around flex-sm-row gap-4 flex-column align-items-center">
+							<a href="/post/update/{{post.id}}" class='updateCommentBtn btn btn-primary text-uppercase'>Modifier</a>
+							<form action="/post/delete" method="POST">
+								<input type="hidden" name="csrfToken" value="{{user.csrfToken}}">
+								<input type="hidden" name="postId" value="{{post.id}}">
+								<button type="submit" class="btn btn-danger text-uppercase">Supprimer</button>
+							</form>
+						</div>
+
+					{% endif %}
+
+
+					<!-- Divider-->
+					<hr class="my-4"/>
+
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

@@ -1,18 +1,63 @@
-{% if error %}
-			<p>{{error}}</p>
-{% endif %}
+{% extends "base.html.twig" %}
+{% block title %}Users Panel
+{% endblock %}
+{% block body %}
 
-{% for user in users %}
-    <p>Pseudo : {{user.username}}</p>
-    <p>Email : {{user.mail}}</p>
-    <p>Role actuel: {{user.role}}</p>
-    <form action="/users/updateRole" method="POST">
-        <select name="role">
-            <option value="">Selectionner un role</option>
-            <option value="admin">admin</option>
-            <option value="basic">basic</option>
-        </select>
-        <input type="hidden" name="userId" value="{{user.id}}">
-        <button type="submit">Changer le role</button>
-    </form>
-{% endfor %}
+	<header class="masthead" style="background-image: url('/media/admin.jpg')">
+		<div class="container position-relative px-4 px-lg-5">
+			<div class="row gx-4 gx-lg-5 justify-content-center">
+				<div class="col-md-10 col-lg-8 col-xl-7">
+					<div class="page-heading">
+						<h1>Listes des utilisateurs</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+
+	<div class="container px-4 px-lg-5">
+		<div class="row gx-4 gx-lg-5 justify-content-center">
+
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				{% if error %}
+					<p>{{error}}</p>
+				{% endif %}
+
+				{% for user in users %}
+					<div>
+						<p>
+							<span class="text-primary">Pseudo :</span>
+							{{user.username}}</p>
+						<p>
+							<span class="text-primary">Email :</span>
+							{{user.mail}}</p>
+						<p>
+							<span class="text-primary">Role actuel:</span>
+							{{user.role}}</p>
+						<div class="row">
+							<div class="mx-auto col-10 col-md-8 col-lg-6">
+								<form action="/users/updateRole" method="POST">
+									<div class="my-4">
+										<select name="role" class="form-select">
+											<option value="">Selectionner un role</option>
+											<option value="admin">admin</option>
+											<option value="basic">basic</option>
+										</select>
+									</div>
+										<input type="hidden" name="userId" value="{{user.id}}">
+									<div class="my-4 text-center">
+										<button type="submit" class="btn btn-primary">Changer le role</button>
+									</div>
+								</form>
+							</div>
+						</div>
+
+					</div>
+					<hr class="my-4"/>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
