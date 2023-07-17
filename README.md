@@ -20,13 +20,23 @@ This is a php application under the mvc model created as part of an OpenClassroo
   APP_ENV = "dev"
   
   #Your SMTP Mail
+  # MAIL = example@domain.com
   MAIL = ""
   ```
 
 ## Composer Package installation :
 
-  You need twig/twig and vlucas/phpdotenv
+   ```bash
+  composer install
+  ```
 
 ## Convert htaccess on nginx rules if necessary
+
+```bash
+  #NGINX CONVERSION FROM HTACCESS
+  location / {
+    try_files $uri $uri/ /index.php?$query_string;
+  }
+  ```
 
 ## For this local projet I was using sendmail coupled with WampServer in order to send mail. You are free to choose the way that suits you best.
